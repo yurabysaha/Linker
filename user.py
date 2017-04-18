@@ -88,7 +88,6 @@ def get_day_counter():
 def get_today_connection_results():
     con = db.connect(database="linker")
     cur = con.cursor()
-    print date.today()
     users = cur.execute("SELECT name FROM users WHERE created_at >=?;", (date.today(),)).fetchall()
     con.close()
     return date.today(), users
@@ -97,7 +96,6 @@ def get_today_connection_results():
 def get_all_connection_results():
     con = db.connect(database="linker")
     cur = con.cursor()
-    print date.today()
     users = cur.execute("SELECT * FROM users;").fetchall()
     con.close()
     return users
