@@ -49,7 +49,7 @@ def accept(name):
 
     # :return
     # 1 - Статус змінено на True
-    # 2 - Такого користувача не знайено в базі
+    # 2 - Такого користувача не знайдено в базі
     # 3 - У користувача вже є статус True
 
     con = db.connect(database="linker")
@@ -84,3 +84,20 @@ def get_day_counter():
     con.close()
     return len(users)
 
+
+def get_today_connection_results():
+    con = db.connect(database="linker")
+    cur = con.cursor()
+    print date.today()
+    users = cur.execute("SELECT * FROM users WHERE created_at >=?;", (date.today(),)).fetchall()
+    con.close()
+    return users
+
+
+def get_all_connection_results():
+    con = db.connect(database="linker")
+    cur = con.cursor()
+    print date.today()
+    users = cur.execute("SELECT * FROM users;").fetchall()
+    con.close()
+    return users
