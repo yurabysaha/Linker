@@ -14,13 +14,13 @@ class Connect(object):
         self.password = config.get('main', 'password')
         self.search_link = config.get('main', 'search_link')
         self.limit = config.getint('main', 'day_limit')
+
         chrome_options = webdriver.ChromeOptions()
         prefs = {"profile.default_content_setting_values.notifications": 2}
         chrome_options.add_experimental_option("prefs", prefs)
+        chrome_options.add_argument('--lang=en')
         chrome_options.add_argument("start-maximized")
-        self.chrome = webdriver.Chrome(executable_path='{}/chromedriver'.format(os.getcwd()),
-                                       chrome_options=chrome_options)
-        self.chrome.execute_script("document.body.style.zoom='40%'")
+        self.chrome = webdriver.Chrome(executable_path='chromedriver.exe', chrome_options=chrome_options)
         self.login()
         self.send_request(self.chrome)
 
@@ -30,9 +30,8 @@ class Connect(object):
         self.chrome.find_element_by_id('login-password').send_keys(self.password)
         self.chrome.find_element_by_id('login-submit').click()
 
-
     def send_request(self, chrome):
-        counter = 0
+        counter = user.get_day_counter()
         page_number = 1
         while counter <= self.limit:
             chrome.get('{}&page={}'.format(self.search_link, page_number))

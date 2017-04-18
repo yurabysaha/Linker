@@ -46,12 +46,25 @@ def create(name):
 
 
 def accept(name):
+
+    # :return
+    # 1 - Статус змінено на True
+    # 2 - Такого користувача не знайено в базі
+    # 3 - У користувача вже є статус True
+
     con = db.connect(database="linker")
     cur = con.cursor()
-    query = "UPDATE users set accept_connect=1, accept_date=? where name=?"
-    cur.execute(query, (date.today(), name,))
-    con.commit()
-    con.close()
+    user = cur.execute("SELECT * FROM users WHERE name=?;", (name,)).fetchone()
+    if user and not user[2]:
+        query = "UPDATE users set accept_connect=1, accept_date=? where name=?"
+        cur.execute(query, (date.today(), name,))
+        con.commit()
+        con.close()
+        return 1
+    else:
+        if not user:
+            return 2
+        return 3
 
 
 def send_message(name):
@@ -61,3 +74,12 @@ def send_message(name):
     cur.execute(query, (date.today(), name,))
     con.commit()
     con.close()
+
+
+def get_day_counter():
+    con = db.connect(database="linker")
+    cur = con.cursor()
+    print date.today()
+    users = cur.execute("SELECT id FROM users WHERE created_at >=?;", (date.today(),)).fetchall()
+    con.close()
+    return len(users)
