@@ -20,7 +20,9 @@ class Connect(object):
         chrome_options.add_experimental_option("prefs", prefs)
         chrome_options.add_argument('--lang=en')
         chrome_options.add_argument("start-maximized")
-        self.chrome = webdriver.Chrome(executable_path='chromedriver.exe', chrome_options=chrome_options)
+        # self.chrome = webdriver.Chrome(executable_path='chromedriver.exe', chrome_options=chrome_options)
+        self.chrome = webdriver.Chrome(executable_path='{}/chromedriver'.format(os.getcwd()),
+                                       chrome_options=chrome_options)
         self.login()
         self.send_request(self.chrome)
 
@@ -52,6 +54,9 @@ class Connect(object):
                         print (full_name[-1] + " was invited.")
                         user.create(full_name[-1])
                         counter += 1
+                        if counter == self.limit:
+                            counter += 1000000
+                            break
                 page_number += 1
                 print (counter)
             else:
