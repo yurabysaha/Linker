@@ -1,28 +1,28 @@
 import os
-import platform
 import time
-from ConfigParser import SafeConfigParser
+from ConfigParser import SafeConfigParser, RawConfigParser
 from selenium import webdriver
-
-
-
+from selenium.webdriver.common.by import By
+import user
 
 class Connect(object):
 
     def __init__(self):
-        config = SafeConfigParser()
+        config = RawConfigParser()
         config.read('config.ini')
         self.email = config.get('main', 'email')
         self.password = config.get('main', 'password')
         self.search_link = config.get('main', 'search_link')
-        self.limit = config.get('main', 'day_limit')
-
+        self.limit = config.getint('main', 'day_limit')
         chrome_options = webdriver.ChromeOptions()
         prefs = {"profile.default_content_setting_values.notifications": 2}
         chrome_options.add_experimental_option("prefs", prefs)
-        chrome_options.add_argument('--lang=en')
-        self.chrome = webdriver.Chrome(executable_path='chromedriver', chrome_options=chrome_options)
+        chrome_options.add_argument("start-maximized")
+        self.chrome = webdriver.Chrome(executable_path='{}/chromedriver'.format(os.getcwd()),
+                                       chrome_options=chrome_options)
+        self.chrome.execute_script("document.body.style.zoom='40%'")
         self.login()
+        self.send_request(self.chrome)
 
     def login(self):
         self.chrome.get(url='https://www.linkedin.com')
@@ -31,27 +31,53 @@ class Connect(object):
         self.chrome.find_element_by_id('login-submit').click()
 
 
-    def search(self, chrome):
-        chrome.get('https://www.linkedin.com/search/results/people/?origin=SWITCH_SEARCH_VERTICAL')
-        time.sleep(5)
-        chrome.find_element_by_xpath("//fieldset/ol/li[1]/label/div[text()='1st']").click()
-        time.sleep(5)
-        chrome.find_element_by_xpath("//button/span/span[1]/h3[text()='Keywords']").click()
-        time.sleep(5)
-        chrome.find_element_by_id("advanced-search-title").send_keys('tra-ta-ta-ta')
-        time.sleep(3)
-        chrome.execute_script("window.scrollTo(0, 500)")
-        time.sleep(3)
-        chrome.find_element_by_xpath("//button/span/span[1]/h3[text()='Locations']").click()
-        time.sleep(5)
-        chrome.find_element_by_id("sf-facetGeoRegion-add").click()
-        time.sleep(5)
-        chrome.find_element_by_xpath("//div/div[1]/div/div/input[@placeholder='Type a location name']").send_keys("United States")
-        time.sleep(5)
-        chrome.find_element_by_xpath("//div/ul/li/div/h3").click()
-        time.sleep(5)
-        chrome.execute_script("window.scrollTo(0, 500)")
-        time.sleep(3)
+    def send_request(self, chrome):
+        counter = 0
+        page_number = 1
+        while counter <= self.limit:
+            chrome.get('{}&page={}'.format(self.search_link, page_number))
+            time.sleep(5)
+            list = chrome.find_elements(By.XPATH, ".//div[@class='search-results__cluster-content']/ul/li//button")
+
+            if list:
+                for item in list:
+                    if item.text != "Connect":
+                        pass
+                    else:
+                        # self.chrome.execute_script("window.scrollTo(0, 200)")
+                        time.sleep(1)
+                        item.click()
+                        time.sleep(4)
+                        chrome.find_element(By.XPATH, './/button[@name="cancel"]').click()
+                        full_name = item.get_attribute('aria-label').split('with ')
+                        print (full_name[-1] + " was invited.")
+                        user.create(full_name[-1])
+                        counter += 1
+                page_number += 1
+                print (counter)
+            else:
+                counter += 1000000
+                        # chrome.find_element(By.XPATH, './/button[text()="Send now"]').click()
+
+
+        # chrome.find_element_by_xpath("//fieldset/ol/li[1]/label/div[text()='1st']").click()
+        # time.sleep(5)
+        # chrome.find_element_by_xpath("//button/span/span[1]/h3[text()='Keywords']").click()
+        # time.sleep(5)
+        # chrome.find_element_by_id("advanced-search-title").send_keys('tra-ta-ta-ta')
+        # time.sleep(3)
+        # chrome.execute_script("window.scrollTo(0, 500)")
+        # time.sleep(3)
+        # chrome.find_element_by_xpath("//button/span/span[1]/h3[text()='Locations']").click()
+        # time.sleep(5)
+        # chrome.find_element_by_id("sf-facetGeoRegion-add").click()
+        # time.sleep(5)
+        # chrome.find_element_by_xpath("//div/div[1]/div/div/input[@placeholder='Type a location name']").send_keys("United States")
+        # time.sleep(5)
+        # chrome.find_element_by_xpath("//div/ul/li/div/h3").click()
+        # time.sleep(5)
+        # chrome.execute_script("window.scrollTo(0, 500)")
+        # time.sleep(3)
 
 if __name__ == '__main__':
     Connect()
