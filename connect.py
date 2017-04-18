@@ -1,9 +1,10 @@
-import os
+
 import time
-from ConfigParser import SafeConfigParser, RawConfigParser
+from ConfigParser import RawConfigParser
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import user
+
 
 class Connect(object):
 
@@ -20,9 +21,9 @@ class Connect(object):
         chrome_options.add_experimental_option("prefs", prefs)
         chrome_options.add_argument('--lang=en')
         chrome_options.add_argument("start-maximized")
-        # self.chrome = webdriver.Chrome(executable_path='chromedriver.exe', chrome_options=chrome_options)
-        self.chrome = webdriver.Chrome(executable_path='{}/chromedriver'.format(os.getcwd()),
-                                       chrome_options=chrome_options)
+        self.chrome = webdriver.Chrome(executable_path='chromedriver.exe', chrome_options=chrome_options)
+        #self.chrome = webdriver.Chrome(executable_path='{}/chromedriver'.format(os.getcwd()),
+        #                               chrome_options=chrome_options)
         self.login()
         self.send_request(self.chrome)
 
@@ -35,7 +36,7 @@ class Connect(object):
     def send_request(self, chrome):
         counter = user.get_day_counter()
         page_number = 1
-        while counter <= self.limit:
+        while counter < self.limit:
             chrome.get('{}&page={}'.format(self.search_link, page_number))
             time.sleep(5)
             list = chrome.find_elements(By.XPATH, ".//div[@class='search-results__cluster-content']/ul/li//button")

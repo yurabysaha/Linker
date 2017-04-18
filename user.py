@@ -83,3 +83,4 @@ def get_day_counter():
     users = cur.execute("SELECT id FROM users WHERE created_at >=?;", (date.today(),)).fetchall()
     con.close()
     return len(users)
+
