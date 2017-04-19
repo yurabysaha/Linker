@@ -6,10 +6,11 @@ from selenium import webdriver
 
 class Accept(object):
 
-    def __init__(self):
+    def __init__(self, text):
+        self.text = text
         self.WORK = True
         config = SafeConfigParser()
-        config.read('config.ini')
+        config.read('../config.ini')
         self.email = config.get('main', 'email')
         self.password = config.get('main', 'password')
         self.blocks_count = 0
@@ -19,7 +20,7 @@ class Accept(object):
         chrome_options.add_experimental_option("prefs", prefs)
         chrome_options.add_argument('--lang=en')
         chrome_options.add_argument("start-maximized")
-        self.chrome = webdriver.Chrome(executable_path='chromedriver.exe', chrome_options=chrome_options)
+        self.chrome = webdriver.Chrome(executable_path='../chromedriver.exe', chrome_options=chrome_options)
         # self.chrome = webdriver.Chrome(executable_path='{}/chromedriver'.format(os.getcwd()),
         #                               chrome_options=chrome_options)
         self.login()
@@ -40,10 +41,9 @@ class Accept(object):
                 if user.accept(name) == 3:
                     self.WORK = False
                     break
+                self.text.insert('end', "Yonchi review -> {}\n".format(name))
+                self.text.see('end')
             if self.WORK:
                 self.blocks_count = len(blocks)
                 self.chrome.execute_script("window.scrollTo(0, document.body.scrollHeight);")
                 time.sleep(5)
-
-if __name__ == '__main__':
-    Accept()

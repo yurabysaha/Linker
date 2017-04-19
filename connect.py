@@ -60,8 +60,9 @@ class Connect(object):
                             counter += 1000000
                             break
                 page_number += 1
-                self.text.insert('end', "Current added -> {}\n".format(counter))
-                self.text.see('end')
+                if counter != 0 or counter % 10 == 0:
+                    self.text.insert('end', "Current added -> {}\n".format(counter))
+                    self.text.see('end')
             else:
                 counter += 1000000
                         # chrome.find_element(By.XPATH, './/button[text()="Send now"]').click()

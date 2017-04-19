@@ -1,4 +1,7 @@
 import Tkinter as tk
+import threading
+
+from accept import Accept
 
 
 class AcceptView:
@@ -21,4 +24,6 @@ class AcceptView:
         self.results_btn.place(x=130, y=450)
 
     def start_review(self, event):
+        t = threading.Thread(target=Accept, args=(self.text,))
+        t.start()
         self.text.insert('end', "Start review connection people\n")

@@ -1,7 +1,7 @@
 import Tkinter as tk
 
 
-class Results:
+class ResultsView:
     def __init__(self, root, frames):
 
         self.body = tk.Frame(root, bg='#e6e6e6')
