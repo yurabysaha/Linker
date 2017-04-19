@@ -9,7 +9,7 @@ class Results:
 
     def get_result_current_day(self):
         data = user.get_today_connection_results()
-        workbook = xlsxwriter.Workbook('{}.xlsx'.format(data[0]))
+        workbook = xlsxwriter.Workbook('reports/{}.xlsx'.format(data[0]))
         worksheet = workbook.add_worksheet()
         worksheet.set_column('A:B', 30)
         format = workbook.add_format({'bold': True})
@@ -19,3 +19,21 @@ class Results:
         for item in data[1]:
             worksheet.write('B{}'.format(counter), item[0])
             counter += 1
+
+    # def get_all_result(self):
+    #     data = user.get_all_connection_results()
+    #     print (data)
+    #     workbook = xlsxwriter.Workbook('All results.xlsx')
+    #     worksheet = workbook.add_worksheet()
+    #     worksheet.set_column('A:B', 30)
+    #     format = workbook.add_format({'bold': True})
+    #
+    #     worksheet.write('A2', str(data[1]), format)
+    #     counter = 2
+    #     for item in data[1]:
+    #         worksheet.write('B{}'.format(counter), item[1])
+    #         counter += 1
+
+if __name__ == '__main__':
+    Results()
+
