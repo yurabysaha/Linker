@@ -28,8 +28,10 @@ class ResultsView:
                                      highlightthickness=0,
                                      width=18, height=2)
 
-        self.results_btn.bind("<Button-1>", self.generate_report)
+        self.results_btn.bind("<Button-1>", self.generate_all_report)
         self.results_btn.place(x=170, y=30)
 
     def generate_report(self, event):
             Results().get_result_current_day()
+    def generate_all_report(self, event):
+            Results().get_all_result()

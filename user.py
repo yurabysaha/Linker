@@ -94,9 +94,9 @@ def get_today_connection_results():
 
 
 def get_all_connection_results():
-    con = db.connect(database="../linker")
+    con = db.connect(database="..//linker")
     cur = con.cursor()
-    users = cur.execute("SELECT name,strftime('%Y-%m-%d',created_at) FROM users "
+    users = cur.execute("SELECT strftime('%Y-%m-%d',created_at), name FROM users "
                         "ORDER BY strftime('%Y-%m-%d', created_at) desc;").fetchall()
     con.close()
     return users
