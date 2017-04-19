@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import Tkinter as tk
 
 import sys
@@ -10,8 +13,8 @@ from ui.settings_view import SettingsView
 MAIN_BG = '#242424'
 
 # Потрібно щоб не вискакувало вікно на віндовсі при закритті програми
-sys.stderr = open('error.log', 'w')
-sys.stdout = open('output.log', 'w')
+#sys.stderr = open('error.log', 'w')
+#sys.stdout = open('output.log', 'w')
 
 root = tk.Tk()
 root.title('Yonchi')

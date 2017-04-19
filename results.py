@@ -2,7 +2,7 @@ import xlsxwriter as xlsxwriter
 import user
 
 
-class Results(object):
+class Results:
 
     def __init__(self):
         pass
@@ -19,8 +19,3 @@ class Results(object):
         for item in data[1]:
             worksheet.write('B{}'.format(counter), item[0])
             counter += 1
-
-
-if __name__ == '__main__':
-    Results()
-

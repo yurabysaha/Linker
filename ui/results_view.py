@@ -1,5 +1,7 @@
 import Tkinter as tk
 
+from results import Results
+
 
 class ResultsView:
     def __init__(self, root, frames):
@@ -11,7 +13,7 @@ class ResultsView:
 
         self.results_btn = tk.Button(self.body,
                                      text='Generate report',
-                                     bg='#e6e6e6', activebackground='#e6e6e6',
+                                     bg='#545424', activebackground='#545424',
                                      borderwidth=0,
                                      highlightthickness=0,
                                      width=18, height=2)
@@ -19,5 +21,5 @@ class ResultsView:
         self.results_btn.bind("<Button-1>", self.generate_report)
         self.results_btn.place(x=10, y=10)
 
-    def generate_report(self):
-        print 'dsdsdsds'
+    def generate_report(self, event):
+            Results().get_result_current_day()
