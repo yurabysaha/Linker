@@ -1,4 +1,4 @@
-
+import threading
 import time
 from ConfigParser import RawConfigParser
 from selenium import webdriver
@@ -8,9 +8,10 @@ import user
 
 class Connect(object):
 
-    def __init__(self):
+    def __init__(self, text):
+        self.text = text
         config = RawConfigParser()
-        config.read('config.ini')
+        config.read('../config.ini')
         self.email = config.get('main', 'email')
         self.password = config.get('main', 'password')
         self.search_link = config.get('main', 'search_link')
@@ -21,7 +22,7 @@ class Connect(object):
         chrome_options.add_experimental_option("prefs", prefs)
         chrome_options.add_argument('--lang=en')
         chrome_options.add_argument("start-maximized")
-        self.chrome = webdriver.Chrome(executable_path='chromedriver.exe', chrome_options=chrome_options)
+        #self.chrome = webdriver.Chrome(executable_path='../chromedriver.exe', chrome_options=chrome_options)
         #self.chrome = webdriver.Chrome(executable_path='{}/chromedriver'.format(os.getcwd()),
         #                               chrome_options=chrome_options)
         self.login()
@@ -59,7 +60,8 @@ class Connect(object):
                             counter += 1000000
                             break
                 page_number += 1
-                print (counter)
+                self.text.insert('end', "Current added -> {}\n".format(counter))
+                self.text.see('end')
             else:
                 counter += 1000000
                         # chrome.find_element(By.XPATH, './/button[text()="Send now"]').click()
@@ -83,6 +85,3 @@ class Connect(object):
         # time.sleep(5)
         # chrome.execute_script("window.scrollTo(0, 500)")
         # time.sleep(3)
-
-if __name__ == '__main__':
-    Connect()

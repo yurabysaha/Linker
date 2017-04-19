@@ -1,14 +1,14 @@
 import Tkinter as tk
 
-from ui.accept import Accept
-from ui.connect import Connect
+from ui.accept_view import Accept
+from ui.connect_view import ConnectView
 from ui.results import Results
 from ui.settings import Settings
 
 MAIN_BG = '#242424'
 
 root = tk.Tk()
-root.title('Linker')
+root.title('Yonchi')
 root.configure(background=MAIN_BG)
 root.resizable(width=False, height=False)
 root.minsize(width=500, height=500)
@@ -24,7 +24,7 @@ textfield.place(x=0, y=0)
 def open_connect(event):
     for i in frames:
         frames[i].place_forget()
-    Connect(frames, textfield, body)
+    ConnectView(frames, textfield, body)
 
 
 def open_accept(event):
@@ -100,5 +100,5 @@ if __name__ == "__main__":
     menu.place(x=0, y=0, width=120, height=500)
     body.place(x=120, y=0, width=380, height=500)
     Menu()
-    Connect(frames, textfield, body)
+    ConnectView(frames, textfield, body)
     root.mainloop()
