@@ -105,6 +105,7 @@ def get_all_connection_results():
 def candidate_for_message():
     con = db.connect(database="../linker")
     cur = con.cursor()
-    users = cur.execute("SELECT name FROM users WHERE accept_connect=TRUE AND send_message=FALSE AND accept_date <?;", (date.today(),)).fetchall()
+    users = cur.execute("SELECT name FROM users WHERE accept_connect=? AND send_message=? AND accept_date <?;",
+                        (True, False, date.today(),)).fetchall()
     con.close()
     return users
