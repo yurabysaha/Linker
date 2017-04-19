@@ -21,9 +21,9 @@ class Connect(object):
         chrome_options.add_experimental_option("prefs", prefs)
         chrome_options.add_argument('--lang=en')
         chrome_options.add_argument("start-maximized")
-        #self.chrome = webdriver.Chrome(executable_path='../chromedriver.exe', chrome_options=chrome_options)
-        self.chrome = webdriver.Chrome(executable_path='../chromedriver',
-                                       chrome_options=chrome_options)
+        self.chrome = webdriver.Chrome(executable_path='../chromedriver.exe', chrome_options=chrome_options)
+        #self.chrome = webdriver.Chrome(executable_path='../chromedriver',
+        #                               chrome_options=chrome_options)
         self.login()
         self.send_request(self.chrome)
 
