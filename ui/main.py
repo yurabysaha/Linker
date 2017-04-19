@@ -52,7 +52,7 @@ def open_results(event):
 def open_message(event):
     for i in frames:
             frames[i].place_forget()
-    MessageView(root, frames)
+    MessageView(root, frames, textfield)
 
 
 def open_settings(event):

@@ -6,7 +6,7 @@ from selenium import webdriver
 import user
 
 
-class Message(object):
+class Message:
     def __init__(self, text):
         self.text = text
         config = RawConfigParser()
