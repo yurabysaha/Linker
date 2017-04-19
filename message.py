@@ -2,6 +2,7 @@ from ConfigParser import RawConfigParser
 
 import time
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 
 import user
 
@@ -47,9 +48,10 @@ class Message:
                 text_field = chrome.find_element_by_xpath(".//textarea")
                 text_field.send_keys(self.message_text.format(name[0].encode('utf-8')))
                 time.sleep(1)
+                text_field.send_keys(Keys.ENTER)
                 self.text.insert('end', "Message was sent for: {}\n".format(name[0].encode('utf-8')))
                 self.text.see('end')
-                self.chrome.get(url='https://www.linkedin.com/mynetwork/invite-connect/connections')
+                # self.chrome.get(url='https://www.linkedin.com/mynetwork/invite-connect/connections')
                 time.sleep(5)
         else:
             self.text.insert('end', "Nobody to send message, hahahahhahah!\n")
