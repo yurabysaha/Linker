@@ -5,7 +5,7 @@ import sqlite3 as db
 from datetime import date
 
 today = date(2013, 11, 1)
-c = db.connect(database="linker")
+c = db.connect(database="../linker")
 cu = c.cursor()
 try:
     cu.executescript("""
@@ -36,7 +36,7 @@ c.close()
 
 
 def create(name):
-    con = db.connect(database="linker")
+    con = db.connect(database="../linker")
     cur = con.cursor()
     cur.execute("insert into users (name) values (?)",
                 (name,))
@@ -51,7 +51,7 @@ def accept(name):
     # 2 - Такого користувача не знайдено в базі
     # 3 - У користувача вже є статус True
 
-    con = db.connect(database="linker")
+    con = db.connect(database="../linker")
     cur = con.cursor()
     user = cur.execute("SELECT * FROM users WHERE name=?;", (name,)).fetchone()
     if user and not user[2]:
@@ -67,7 +67,7 @@ def accept(name):
 
 
 def send_message(name):
-    con = db.connect(database="linker")
+    con = db.connect(database="../linker")
     cur = con.cursor()
     query = "UPDATE users set send_message=1, send_date=? where name=?"
     cur.execute(query, (date.today(), name,))
@@ -76,7 +76,7 @@ def send_message(name):
 
 
 def get_day_counter():
-    con = db.connect(database="linker")
+    con = db.connect(database="../linker")
     cur = con.cursor()
     print date.today()
     users = cur.execute("SELECT id FROM users WHERE created_at >=?;", (date.today(),)).fetchall()
@@ -85,7 +85,7 @@ def get_day_counter():
 
 
 def get_today_connection_results():
-    con = db.connect(database="linker")
+    con = db.connect(database="../linker")
     cur = con.cursor()
     users = cur.execute("SELECT name FROM users WHERE created_at >=?;", (date.today(),)).fetchall()
     con.close()
@@ -93,7 +93,7 @@ def get_today_connection_results():
 
 
 def get_all_connection_results():
-    con = db.connect(database="linker")
+    con = db.connect(database="../linker")
     cur = con.cursor()
     users = cur.execute("SELECT * FROM users;").fetchall()
     con.close()
