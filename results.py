@@ -33,7 +33,3 @@ class Results:
     #     for item in data[1]:
     #         worksheet.write('B{}'.format(counter), item[1])
     #         counter += 1
-
-if __name__ == '__main__':
-    Results()
-

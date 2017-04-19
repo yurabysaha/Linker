@@ -97,6 +97,14 @@ def get_all_connection_results():
     con = db.connect(database="../linker")
     cur = con.cursor()
     users = cur.execute("SELECT name,strftime('%Y-%m-%d',created_at) FROM users "
-                        "ORDER BY strftime('%Y-%m-%d', created_at) desc;" ) .fetchall()
+                        "ORDER BY strftime('%Y-%m-%d', created_at) desc;").fetchall()
+    con.close()
+    return users
+
+
+def candidate_for_message():
+    con = db.connect(database="../linker")
+    cur = con.cursor()
+    users = cur.execute("SELECT name FROM users WHERE accept_connect=TRUE AND send_message=FALSE AND accept_date <?;", (date.today(),)).fetchall()
     con.close()
     return users
