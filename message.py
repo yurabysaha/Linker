@@ -40,17 +40,22 @@ class Message:
             time.sleep(5)
             for name in people:
                 search_field = chrome.find_element_by_xpath(".//input[@type='search']")
-                search_field.send_keys(name[0].encode('utf-8'))
-                time.sleep(2)
+                search_field.send_keys(name)
+                time.sleep(1)
+                search_field.send_keys(Keys.ENTER)
+                time.sleep(5)
                 message_button = chrome.find_element_by_xpath(".//button/span[text()='Message']")
                 message_button.click()
                 time.sleep(1)
+                # true_name = chrome.find_element_by_xpath()
+
                 text_field = chrome.find_element_by_xpath(".//textarea")
-                text_field.send_keys(self.message_text.format(name[0].encode('utf-8')))
+                text_field.send_keys(self.message_text.format(name))
                 time.sleep(1)
                 text_field.send_keys(Keys.ENTER)
-                self.text.insert('end', "Message was sent for: {}\n".format(name[0].encode('utf-8')))
+                self.text.insert('end', "Message was sent for: {}\n".format(name))
                 self.text.see('end')
+
                 # self.chrome.get(url='https://www.linkedin.com/mynetwork/invite-connect/connections')
                 time.sleep(5)
         else:
