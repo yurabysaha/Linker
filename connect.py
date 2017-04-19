@@ -25,7 +25,7 @@ class Connect(object):
         #self.chrome = webdriver.Chrome(executable_path='../chromedriver',
         #                               chrome_options=chrome_options)
         self.login()
-        self.send_request(self.chrome)
+        self.send_request()
 
     def login(self):
         self.chrome.get(url='https://www.linkedin.com')
@@ -33,13 +33,13 @@ class Connect(object):
         self.chrome.find_element_by_id('login-password').send_keys(self.password)
         self.chrome.find_element_by_id('login-submit').click()
 
-    def send_request(self, chrome):
+    def send_request(self):
         counter = user.get_day_counter()
         page_number = 1
         while counter < self.limit:
-            chrome.get('{}&page={}'.format(self.search_link, page_number))
+            self.chrome.get('{}&page={}'.format(self.search_link, page_number))
             time.sleep(5)
-            list = chrome.find_elements(By.XPATH, ".//div[@class='search-results__cluster-content']/ul/li//button")
+            list = self.chrome.find_elements(By.XPATH, ".//div[@class='search-results__cluster-content']/ul/li//button")
 
             if list:
                 for item in list:
@@ -49,10 +49,10 @@ class Connect(object):
                         # self.chrome.execute_script("window.scrollTo(0, 200)")
                         time.sleep(1)
                         item.click()
-                        time.sleep(4)
+                        time.sleep(31)
                         try:
-                            chrome.find_element(By.XPATH, './/button[@name="cancel"]').click()
-                            # chrome.find_element(By.XPATH, './/button[text()="Send now"]').click()
+                            # chrome.find_element(By.XPATH, './/button[@name="cancel"]').click()
+                            self.chrome.find_element(By.XPATH, './/button[text()="Send now"]').click()
                             full_name = item.get_attribute('aria-label').split('with ')
                             self.text.insert('end', "{} was ivited.\n".format(full_name[-1]))
                             self.text.see('end')
