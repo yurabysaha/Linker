@@ -3,6 +3,7 @@
 
 import sqlite3 as db
 from datetime import date
+from time import strftime
 
 today = date(2013, 11, 1)
 c = db.connect(database="../linker")
@@ -95,6 +96,6 @@ def get_today_connection_results():
 def get_all_connection_results():
     con = db.connect(database="../linker")
     cur = con.cursor()
-    users = cur.execute("SELECT * FROM users;").fetchall()
+    users = cur.execute("SELECT * FROM users GROUP BY strftime('%d-%m-%Y', created_at);").fetchall()
     con.close()
     return users

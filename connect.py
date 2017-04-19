@@ -3,7 +3,7 @@ from ConfigParser import RawConfigParser
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import user
-import os
+
 
 class Connect(object):
 

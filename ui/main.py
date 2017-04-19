@@ -7,6 +7,7 @@ import sys
 
 from ui.accept_view import AcceptView
 from ui.connect_view import ConnectView
+from ui.message_view import MessageView
 from ui.results_view import ResultsView
 from ui.settings_view import SettingsView
 
@@ -46,6 +47,12 @@ def open_results(event):
     for i in frames:
             frames[i].place_forget()
     ResultsView(root, frames)
+
+
+def open_message(event):
+    for i in frames:
+            frames[i].place_forget()
+    MessageView(root, frames)
 
 
 def open_settings(event):
@@ -92,6 +99,18 @@ class Menu:
         self.results_btn.bind("<Button-1>", open_results)
         self.results_btn.place(x=0, y=78)
 
+        self.message_btn = tk.Button(menu,
+                                     text='Message',
+                                     highlightbackground=MAIN_BG,
+                                     highlightcolor=MAIN_BG,
+                                     bg='#e6e6e6', activebackground='#e6e6e6',
+                                     borderwidth=0,
+                                     highlightthickness=0,
+                                     width=18, height=2)
+
+        self.message_btn.bind("<Button-1>", open_message)
+        self.message_btn.place(x=0, y=116)
+
         self.settings_btn = tk.Button(menu,
                                      text='Settings',
                                      highlightbackground=MAIN_BG,
@@ -102,7 +121,7 @@ class Menu:
                                      width=18, height=2)
 
         self.settings_btn.bind("<Button-1>", open_settings)
-        self.settings_btn.place(x=0, y=116)
+        self.settings_btn.place(x=0, y=154)
 
 
 if __name__ == "__main__":
