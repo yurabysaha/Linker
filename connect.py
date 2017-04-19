@@ -74,6 +74,8 @@ class Connect(object):
                 self.text.insert('end', "Yonchi finished work !\n")
                 self.text.see('end')
                 counter += 1000000
+        self.text.insert('end', "Yonchi used full limit !\n")
+        self.text.see('end')
                         # chrome.find_element(By.XPATH, './/button[text()="Send now"]').click()
 
 
