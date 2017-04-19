@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import sqlite3 as db
-
-from datetime import date, datetime
+from datetime import date
 
 today = date(2013, 11, 1)
 c = db.connect(database="linker")

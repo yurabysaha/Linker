@@ -1,4 +1,3 @@
-import threading
 import time
 from ConfigParser import RawConfigParser
 from selenium import webdriver

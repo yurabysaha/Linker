@@ -1,9 +1,9 @@
 import Tkinter as tk
 
-from ui.accept_view import Accept
+from ui.accept_view import AcceptView
 from ui.connect_view import ConnectView
-from ui.results import Results
-from ui.settings import Settings
+from ui.results_view import ResultsView
+from ui.settings_view import SettingsView
 
 MAIN_BG = '#242424'
 
@@ -30,19 +30,19 @@ def open_connect(event):
 def open_accept(event):
     for i in frames:
             frames[i].place_forget()
-    Accept(frames, textfield, body)
+    AcceptView(frames, textfield, body)
 
 
 def open_results(event):
     for i in frames:
             frames[i].place_forget()
-    Results(root, frames)
+    ResultsView(root, frames)
 
 
 def open_settings(event):
     for i in frames:
             frames[i].place_forget()
-    Settings(root, frames)
+    SettingsView(root, frames)
 
 
 class Menu:

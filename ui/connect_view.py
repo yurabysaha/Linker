@@ -1,7 +1,5 @@
 import Tkinter as tk
 import threading
-
-import connect
 from connect import Connect
 
 
