@@ -1,4 +1,5 @@
 import Tkinter as tk
+import tkMessageBox
 
 from results import Results
 
@@ -33,5 +34,8 @@ class ResultsView:
 
     def generate_report(self, event):
             Results().get_result_current_day()
+            tkMessageBox.showinfo("Updated", "Report was generated successful")
+
     def generate_all_report(self, event):
             Results().get_all_result()
+            tkMessageBox.showinfo("Updated", "Report was generated successful")

@@ -66,12 +66,12 @@ class Accept(object):
                     user_name = self.chrome.find_element_by_xpath(".//h3/span[1]/span").text
                     if user_name != name[0]:
                         break
-                    user.accept(name)
+                    user.accept(name[0])
                     self.text.insert('end', "%s -> accept us :)\n" % name[0])
                 except Exception as e:
-                    self.text.insert('end', "%s -> not accept yet (:\n" % name[0])
+                    self.text.insert('end', "%s -> not accept us yet (:\n" % name[0])
                     self.text.see('end')
-            self.text.insert('end', "Yonchi review all candidate, Yonchi free?!\n")
+            self.text.insert('end', "Yonchi review all candidate, Yonchi free?\n")
             self.text.see('end')
             self.chrome.close()
         else:
