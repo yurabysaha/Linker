@@ -4,16 +4,17 @@ from connect import Connect
 
 
 class ConnectView:
-    def __init__(self, frames, textfield, body):
+    def __init__(self, root, frames, textfield):
 
         self.text = textfield
-        self.body = body
-        frames['body'] = self.body
+        self.body = tk.Frame(root, bg='#e6e6e6')
+        frames['connect'] = self.body
         self.body.place(x=120, y=0, width=380, height=500)
 
         self.connect_btn = tk.Button(self.body,
                                      text='Start connect',
-                                     bg='#e6e6e6', activebackground='#e6e6e6',
+                                     fg='#ffffff',
+                                     bg='#214312', activebackground='#e6e6e6',
                                      borderwidth=0,
                                      highlightthickness=0,
                                      width=18, height=2)

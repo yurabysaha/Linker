@@ -28,6 +28,7 @@ class SettingsView:
 
         self.results_btn = tk.Button(self.body,
                                      text='Update info',
+                                     fg='#ffffff',
                                      bg='#214312', activebackground='#e6e6e6',
                                      borderwidth=0,
                                      highlightthickness=0,

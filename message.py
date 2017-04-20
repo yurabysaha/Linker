@@ -46,7 +46,7 @@ class Message:
                 time.sleep(5)
                 user_name = self.chrome.find_element_by_xpath(".//h3/span[1]/span").text
                 if user_name != name[0]:
-                    break
+                    continue
                 message_button = self.chrome.find_element_by_xpath(".//button[text()='Message']")
                 message_button.click()
                 time.sleep(1)

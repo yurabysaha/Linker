@@ -18,17 +18,19 @@ class MessageView:
         self.mess_entry.grid(row=1, column=1, columnspan=7)
 
         self.update_mess_btn = tk.Button(self.body,
-                                     text='Update info',
-                                     bg='#214312', activebackground='#e6e6e6',
-                                     borderwidth=0,
-                                     highlightthickness=0,
-                                     width=18, height=2)
+                                         text='Update info',
+                                         fg='#ffffff',
+                                         bg='#214312', activebackground='#e6e6e6',
+                                         borderwidth=0,
+                                         highlightthickness=0,
+                                         width=18, height=2)
 
         self.update_mess_btn.bind("<Button-1>", self.update_message_text)
         self.update_mess_btn.place(x=130, y=320)
 
         self.send_mess_btn = tk.Button(self.body,
                                      text='Send messages',
+                                     fg='#ffffff',
                                      bg='#214312', activebackground='#e6e6e6',
                                      borderwidth=0,
                                      highlightthickness=0,

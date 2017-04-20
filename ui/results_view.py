@@ -14,6 +14,7 @@ class ResultsView:
         tk.Label(self.body, text='Generate Report').place(x=102, y=2)
         self.results_btn = tk.Button(self.body,
                                      text='Today report',
+                                     fg='#ffffff',
                                      bg='#545424', activebackground='#545424',
                                      borderwidth=0,
                                      highlightthickness=0,
@@ -24,6 +25,7 @@ class ResultsView:
 
         self.results_btn = tk.Button(self.body,
                                      text='All report',
+                                     fg='#ffffff',
                                      bg='#545424', activebackground='#545424',
                                      borderwidth=0,
                                      highlightthickness=0,
