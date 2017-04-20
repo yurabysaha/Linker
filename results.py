@@ -13,11 +13,17 @@ class Results:
         worksheet = workbook.add_worksheet()
         worksheet.set_column('A:B', 30)
         format = workbook.add_format({'bold': True})
+        worksheet.write('A1', "Date", format)
+        worksheet.write('B1', "Name", format)
+        worksheet.write('C1', "Accept", format)
+        worksheet.write('D1', "Send message", format)
         worksheet.write('A2', str(data[0]), format)
 
         counter = 2
         for item in data[1]:
             worksheet.write('B{}'.format(counter), item[0])
+            worksheet.write('C{}'.format(counter), item[1])
+            worksheet.write('D{}'.format(counter), item[2])
             counter += 1
 
     def get_all_result(self):
