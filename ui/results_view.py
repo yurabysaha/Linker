@@ -10,7 +10,7 @@ class ResultsView:
         frames['results'] = self.body
 
         frames['results'].place(x=120, y=0, width=380, height=435)
-        tk.Label(self.body, text='Connection report').place(x=102, y=2)
+        tk.Label(self.body, text='Generate Report').place(x=102, y=2)
         self.results_btn = tk.Button(self.body,
                                      text='Today report',
                                      bg='#545424', activebackground='#545424',

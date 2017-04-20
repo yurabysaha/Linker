@@ -36,9 +36,9 @@ class Message:
     def send_message(self, chrome):
         people = user.candidate_for_message()
         if people:
-            self.chrome.get(url='https://www.linkedin.com/mynetwork/invite-connect/connections')
-            time.sleep(5)
             for name in people:
+                self.chrome.get(url='https://www.linkedin.com/mynetwork/invite-connect/connections')
+                time.sleep(5)
                 search_field = chrome.find_element_by_xpath(".//input[@type='search']")
                 search_field.send_keys(name)
                 time.sleep(1)
@@ -51,7 +51,7 @@ class Message:
                 message_button.click()
                 time.sleep(1)
                 text_field = chrome.find_element_by_xpath(".//textarea")
-                text_field.send_keys(self.message_text.format(name))
+                text_field.send_keys(self.message_text.format(name[0]))
                 time.sleep(1)
                 text_field.submit()
                 self.text.insert('end', "Message was sent to: {}\n".format(name[0].encode('utf-8')))
