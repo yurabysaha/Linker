@@ -52,7 +52,7 @@ class Connect(object):
                         time.sleep(31)
                         try:
                             # chrome.find_element(By.XPATH, './/button[@name="cancel"]').click()
-                            self.chrome.find_element(By.XPATH, './/button[text()="Send nows"]').click()
+                            self.chrome.find_element(By.XPATH, './/button[text()="Send now"]').click()
                             time.sleep(2)
                             full_name = item.get_attribute('aria-label').split('with ')
                             self.text.insert('end', "{} was invited.\n".format(full_name[-1]))

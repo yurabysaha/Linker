@@ -118,3 +118,12 @@ def candidate_for_review():
                         (False, False,)).fetchall()
     con.close()
     return users
+
+
+def count_connections():
+    con = db.connect(database="../db")
+    cur = con.cursor()
+    all = cur.execute("SELECT COUNT(*) FROM users;").fetchone()
+    today = cur.execute("SELECT COUNT(*) FROM users WHERE created_at >=DATE('now');").fetchone()
+    con.close()
+    return today, all

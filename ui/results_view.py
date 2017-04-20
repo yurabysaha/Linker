@@ -1,6 +1,8 @@
 import Tkinter as tk
 import tkMessageBox
 
+import time
+
 from results import Results
 
 
@@ -23,7 +25,7 @@ class ResultsView:
         self.results_btn.bind("<Button-1>", self.generate_report)
         self.results_btn.place(x=20, y=30)
 
-        self.results_btn = tk.Button(self.body,
+        self.all_results_btn = tk.Button(self.body,
                                      text='All report',
                                      fg='#ffffff',
                                      bg='#545424', activebackground='#545424',
@@ -31,13 +33,17 @@ class ResultsView:
                                      highlightthickness=0,
                                      width=18, height=2)
 
-        self.results_btn.bind("<Button-1>", self.generate_all_report)
-        self.results_btn.place(x=170, y=30)
+        self.all_results_btn.bind("<Button-1>", self.generate_all_report)
+        self.all_results_btn.place(x=170, y=30)
 
     def generate_report(self, event):
-            Results().get_result_current_day()
-            tkMessageBox.showinfo("Updated", "Report was generated successful")
+        self.results_btn.unbind("<Button-1>")
+        Results().get_result_current_day()
+        tkMessageBox.showinfo("Updated", "Report was generated successful")
+        self.results_btn.bind("<Button-1>", self.generate_report)
 
     def generate_all_report(self, event):
-            Results().get_all_result()
-            tkMessageBox.showinfo("Updated", "Report was generated successful")
+        self.all_results_btn.unbind("<Button-1>")
+        Results().get_all_result()
+        tkMessageBox.showinfo("Updated", "Report was generated successful")
+        self.all_results_btn.bind("<Button-1>", self.generate_all_report)

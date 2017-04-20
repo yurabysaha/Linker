@@ -1,7 +1,6 @@
 import time
 
 from selenium.webdriver.common.keys import Keys
-
 import user
 from ConfigParser import SafeConfigParser
 from selenium import webdriver
