@@ -26,27 +26,32 @@ class Results:
         worksheet = workbook.add_worksheet()
         worksheet.set_column('A:B', 30)
         format = workbook.add_format({'bold': True})
+        worksheet.write('A1', "Date", format)
+        worksheet.write('B1', "Name", format)
+        worksheet.write('C1', "Accept", format)
+        worksheet.write('D1', "Send message", format)
 
         format_dict = {}
-        for date, value in data:
+        for date, value, accept, mes in data:
             try:
-                format_dict[date].append(value)
+                format_dict[date].append([value, accept, mes])
             except KeyError:
-                format_dict[date] = [value]
-
-        # print (ddd)
+                format_dict[date] = [[value, accept, mes]]
 
         keys = format_dict.keys()
-        row_for_date = 1
-        counter = 1
+
+        row_for_date = 2
+        counter = 2
         for each in keys:
             worksheet.write('A{}'.format(row_for_date), each, format)
             index = 0
 
             for i in format_dict[each]:
-                name = i
-                worksheet.write('B{}'.format(counter), name)
+                worksheet.write('B{}'.format(counter), i[0])
+                worksheet.write('C{}'.format(counter), i[1])
+                worksheet.write('D{}'.format(counter), i[2])
+
                 counter += 1
                 index += 1
-            row_for_date += counter
+            row_for_date += counter -1
             counter +=1
