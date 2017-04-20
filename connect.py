@@ -1,9 +1,9 @@
 import time
 from ConfigParser import RawConfigParser
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 import user
-
 
 class Connect(object):
 
@@ -21,9 +21,9 @@ class Connect(object):
         chrome_options.add_experimental_option("prefs", prefs)
         chrome_options.add_argument('--lang=en')
         chrome_options.add_argument("start-maximized")
-        self.chrome = webdriver.Chrome(executable_path='../chromedriver.exe', chrome_options=chrome_options)
-        #self.chrome = webdriver.Chrome(executable_path='../chromedriver',
-        #                               chrome_options=chrome_options)
+        # self.chrome = webdriver.Chrome(executable_path='../chromedriver.exe', chrome_options=chrome_options)
+        self.chrome = webdriver.Chrome(executable_path='../chromedriver',
+                                       chrome_options=chrome_options)
         self.login()
         self.send_request()
 
@@ -52,14 +52,18 @@ class Connect(object):
                         time.sleep(31)
                         try:
                             # chrome.find_element(By.XPATH, './/button[@name="cancel"]').click()
-                            self.chrome.find_element(By.XPATH, './/button[text()="Send now"]').click()
+                            self.chrome.find_element(By.XPATH, './/button[text()="Send nows"]').click()
+                            time.sleep(2)
                             full_name = item.get_attribute('aria-label').split('with ')
                             self.text.insert('end', "{} was invited.\n".format(full_name[-1]))
                             self.text.see('end')
                             user.create(full_name[-1])
                             counter += 1
+                        except NoSuchElementException:
+                            self.text.insert('end', "Requires email\n")
+                            self.text.see('end')
                         except Exception as e:
-                            self.text.insert('end', "Yonchi joked: {}\n".format(e.message))
+                            self.text.insert('end', "Yonchi joked: {}\n".format(e))
                             self.text.see('end')
                         if counter == self.limit:
                             self.text.insert('end', "Yonchi finished work !\n")
@@ -74,7 +78,7 @@ class Connect(object):
                 self.text.insert('end', "Yonchi finished work !\n")
                 self.text.see('end')
                 counter += 1000000
-        self.text.insert('end', "Yonchi used full limit !\n")
+        self.text.insert('end', "Yonchi used all limit !\n")
         self.text.see('end')
                         # chrome.find_element(By.XPATH, './/button[text()="Send now"]').click()
 
