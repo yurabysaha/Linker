@@ -109,3 +109,12 @@ def candidate_for_message():
                         (True, False, date.today(),)).fetchall()
     con.close()
     return users
+
+
+def candidate_for_review():
+    con = db.connect(database="../linker")
+    cur = con.cursor()
+    users = cur.execute("SELECT name FROM users WHERE accept_connect=? AND send_message=? AND accept_date <=?;",
+                        (False, False, date.today(),)).fetchall()
+    con.close()
+    return users

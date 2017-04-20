@@ -1,4 +1,7 @@
 import time
+
+from selenium.webdriver.common.keys import Keys
+
 import user
 from ConfigParser import SafeConfigParser
 from selenium import webdriver
@@ -32,18 +35,46 @@ class Accept(object):
         self.chrome.find_element_by_id('login-password').send_keys(self.password)
         self.chrome.find_element_by_id('login-submit').click()
 
+    # def find_accepted(self):
+    #     self.chrome.get(url='https://www.linkedin.com/mynetwork/invite-connect/connections')
+    #     while self.WORK:
+    #         blocks = self.chrome.find_elements_by_xpath("//div[@class='core-rail']/div/ul/li")
+    #         for u in blocks[self.blocks_count:]:
+    #             name = u.find_element_by_xpath('./div/div/a/span[2]').text
+    #             if user.accept(name) == 3:
+    #                 self.WORK = False
+    #                 break
+    #             self.text.insert('end', "Yonchi verify -> {}\n".format(name))
+    #             self.text.see('end')
+    #         if self.WORK:
+    #             self.blocks_count = len(blocks)
+    #             self.chrome.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    #             time.sleep(5)
+
     def find_accepted(self):
-        self.chrome.get(url='https://www.linkedin.com/mynetwork/invite-connect/connections')
-        while self.WORK:
-            blocks = self.chrome.find_elements_by_xpath("//div[@class='core-rail']/div/ul/li")
-            for u in blocks[self.blocks_count:]:
-                name = u.find_element_by_xpath('./div/div/a/span[2]').text
-                if user.accept(name) == 3:
-                    self.WORK = False
-                    break
-                self.text.insert('end', "Yonchi review -> {}\n".format(name))
-                self.text.see('end')
-            if self.WORK:
-                self.blocks_count = len(blocks)
-                self.chrome.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        people = user.candidate_for_review()
+        if people:
+            for name in people:
+                self.chrome.get(url='https://www.linkedin.com/mynetwork/invite-connect/connections')
                 time.sleep(5)
+                search_field = self.chrome.find_element_by_xpath(".//input[@type='search']")
+                search_field.send_keys(name)
+                time.sleep(1)
+                search_field.send_keys(Keys.ENTER)
+                time.sleep(5)
+                try:
+                    user_name = self.chrome.find_element_by_xpath(".//h3/span[1]/span").text
+                    if user_name != name[0]:
+                        break
+                    user.accept(name)
+                    self.text.insert('end', "%s -> accept us :)\n" % name[0])
+                except Exception as e:
+                    self.text.insert('end', "%s -> not accept yet (:\n" % name[0])
+                    self.text.see('end')
+            self.text.insert('end', "Yonchi review all candidate, Yonchi free?!\n")
+            self.text.see('end')
+            self.chrome.close()
+        else:
+            self.text.insert('end', "Nobody to review accept, hahahahhahah!\n")
+            self.text.see('end')
+            self.chrome.close()

@@ -25,7 +25,7 @@ class Message:
         #self.chrome = webdriver.Chrome(executable_path='../chromedriver',
         #                               chrome_options=chrome_options)
         self.login()
-        self.send_message(self.chrome)
+        self.send_message()
 
     def login(self):
         self.chrome.get(url='https://www.linkedin.com')
@@ -33,32 +33,40 @@ class Message:
         self.chrome.find_element_by_id('login-password').send_keys(self.password)
         self.chrome.find_element_by_id('login-submit').click()
 
-    def send_message(self, chrome):
+    def send_message(self):
         people = user.candidate_for_message()
         if people:
             for name in people:
                 self.chrome.get(url='https://www.linkedin.com/mynetwork/invite-connect/connections')
                 time.sleep(5)
-                search_field = chrome.find_element_by_xpath(".//input[@type='search']")
+                search_field = self.chrome.find_element_by_xpath(".//input[@type='search']")
                 search_field.send_keys(name)
                 time.sleep(1)
                 search_field.send_keys(Keys.ENTER)
                 time.sleep(5)
-                user_name = chrome.find_element_by_xpath(".//h3/span[1]/span").text
+                user_name = self.chrome.find_element_by_xpath(".//h3/span[1]/span").text
                 if user_name != name[0]:
                     break
-                message_button = chrome.find_element_by_xpath(".//button[text()='Message']")
+                message_button = self.chrome.find_element_by_xpath(".//button[text()='Message']")
                 message_button.click()
                 time.sleep(1)
-                text_field = chrome.find_element_by_xpath(".//textarea")
-                text_field.send_keys(self.message_text.format(name[0]))
-                time.sleep(1)
+                text_field = self.chrome.find_element_by_xpath(".//textarea")
+                text = self.message_text % name[0]
+                z = text.split('\n')
+                for i in z:
+                    text_field.send_keys(i)
+                    text_field.send_keys(Keys.SHIFT + Keys.ENTER)
+                    time.sleep(1)
                 text_field.submit()
-                self.text.insert('end', "Message was sent to: {}\n".format(name[0].encode('utf-8')))
+                self.text.insert('end', "Message was sent to: %s\n" % name[0])
                 self.text.see('end')
                 user.send_message(name[0])
                 # self.chrome.get(url='https://www.linkedin.com/mynetwork/invite-connect/connections')
-                time.sleep(30)
+                time.sleep(31)
+            self.text.insert('end', "Yonchi send all messages, Yeeeeee!\n")
+            self.text.see('end')
+            self.chrome.close()
         else:
             self.text.insert('end', "Nobody to send message, hahahahhahah!\n")
             self.text.see('end')
+            self.chrome.close()
