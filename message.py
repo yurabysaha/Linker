@@ -22,8 +22,8 @@ class Message:
         chrome_options.add_argument('--lang=en')
         chrome_options.add_argument("start-maximized")
         self.chrome = webdriver.Chrome(executable_path='../chromedriver.exe', chrome_options=chrome_options)
-        #self.chrome = webdriver.Chrome(executable_path='../chromedriver',
-        #                               chrome_options=chrome_options)
+        # self.chrome = webdriver.Chrome(executable_path='../chromedriver',
+        #                                chrome_options=chrome_options)
         self.login()
         self.send_message()
 
@@ -37,15 +37,19 @@ class Message:
         people = user.candidate_for_message()
         if people:
             for name in people:
-                self.chrome.get(url='https://www.linkedin.com/mynetwork/invite-connect/connections')
+                self.chrome.get(url='https://www.linkedin.com/search/results/people/?facetNetwork=%5B%22F%22%5D&keywords=&origin=GLOBAL_SEARCH_HEADER')
                 time.sleep(5)
-                search_field = self.chrome.find_element_by_xpath(".//input[@type='search']")
+                search_field = self.chrome.find_element_by_xpath(".//input[@placeholder='Search']")
                 search_field.send_keys(name)
                 time.sleep(1)
                 search_field.send_keys(Keys.ENTER)
                 time.sleep(5)
-                user_name = self.chrome.find_element_by_xpath(".//h3/span[1]/span").text
-                if user_name != name[0]:
+                try:
+                    user_name = self.chrome.find_element_by_xpath(".//h3/span[1]/span").text
+                    if user_name != name[0]:
+                        continue
+                except Exception as e:
+                    print (e)
                     continue
                 message_button = self.chrome.find_element_by_xpath(".//button[text()='Message']")
                 message_button.click()
@@ -69,4 +73,3 @@ class Message:
         else:
             self.text.insert('end', "Nobody to send message, hahahahhahah!\n")
             self.text.see('end')
-            self.chrome.close()
