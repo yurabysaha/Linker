@@ -62,7 +62,7 @@ class Accept(object):
                 search_field.send_keys(Keys.ENTER)
                 time.sleep(5)
                 try:
-                    user_name = self.chrome.find_element_by_xpath(".//h3/span[1]/span").text
+                    user_name = self.chrome.find_element_by_xpath(".//span[contains(@class, 'mn-person-info__name')]").text
                     if user_name != name[0]:
                         continue
                     user.accept(name[0])
