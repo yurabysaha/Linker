@@ -1,5 +1,6 @@
 import time
 
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import user
 from ConfigParser import SafeConfigParser
@@ -53,23 +54,34 @@ class Accept(object):
     def find_accepted(self):
         people = user.candidate_for_review()
         if people:
+            users = []
             for name in people:
-                self.chrome.get(url='https://www.linkedin.com/mynetwork/invite-connect/connections')
+                if len(users) < 20:
+                    users.append(str(name[0]))
+                    if name != people[-1]:
+                        continue
+                cand = str(users).replace(',', ' OR ')
+                cand = 'firstname:(' + cand + ')'
+                self.chrome.get(url='https://www.linkedin.com/search/results/people/?facetNetwork=%5B%22F%22%5D&keywords=&origin=GLOBAL_SEARCH_HEADER')
                 time.sleep(5)
-                search_field = self.chrome.find_element_by_xpath(".//input[@type='search']")
-                search_field.send_keys(name)
+                search_field = self.chrome.find_element_by_xpath(".//input[@placeholder='Search']")
+
+                search_field.send_keys(cand)
                 time.sleep(1)
                 search_field.send_keys(Keys.ENTER)
                 time.sleep(5)
-                try:
-                    user_name = self.chrome.find_element_by_xpath(".//span[contains(@class, 'mn-person-info__name')]").text
-                    if user_name != name[0]:
-                        continue
-                    user.accept(name[0])
-                    self.text.insert('end', "%s -> accept us :)\n" % name[0])
-                except Exception as e:
-                    self.text.insert('end', "%s -> not accept us yet (:\n" % name[0])
-                    self.text.see('end')
+                list = self.chrome.find_elements(By.XPATH, ".//div[@class='search-results__cluster-content']/ul/*")
+                for i in list:
+                    try:
+                        user_name = i.find_element_by_xpath(".//h3/span[1]/span").text
+                        if user_name not in users:
+                            continue
+                        user.accept(user_name)
+                        self.text.insert('end', "%s -> accept us :)\n" % user_name)
+                    except Exception as e:
+                        self.text.insert('end', "%s -> not accept us yet (:\n" % user_name)
+                        self.text.see('end')
+                users = []
             self.text.insert('end', "Yonchi review all candidate, Yonchi free?\n")
             self.text.see('end')
             self.chrome.close()
