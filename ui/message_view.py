@@ -13,7 +13,7 @@ class MessageView:
 
         frames['message'].place(x=120, y=0, width=380, height=500)
 
-        tk.Label(self.body, text='Message Text ').grid(row=0, column=0, columnspan=2, pady=5)
+        tk.Label(self.body, bg='#e6e6e6', text='Message Text').grid(row=0, column=0, columnspan=2, pady=5)
         self.mess_entry = tk.Text(self.body, width=46, height=17)
         self.mess_entry.grid(row=1, column=1, columnspan=7)
 

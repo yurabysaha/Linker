@@ -127,3 +127,12 @@ def count_connections():
     today = cur.execute("SELECT COUNT(*) FROM users WHERE created_at >=DATE('now');").fetchone()
     con.close()
     return today, all
+
+
+def count_accepted():
+    con = db.connect(database="../db")
+    cur = con.cursor()
+    all = cur.execute("SELECT COUNT(*) FROM users WHERE accept_connect=1;").fetchone()
+    today = cur.execute("SELECT COUNT(*) FROM users WHERE accept_connect=1 AND created_at >=DATE('now');").fetchone()
+    con.close()
+    return today, all

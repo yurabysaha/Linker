@@ -10,19 +10,19 @@ class SettingsView:
 
         self.body.place(x=120, y=0, width=380, height=500)
 
-        tk.Label(self.body, text='Login ').grid(row=0, column=0, columnspan=2, pady=5)
+        tk.Label(self.body, bg='#e6e6e6', text='Login ').grid(row=0, column=0, columnspan=2, pady=5)
         self.email_entry = tk.Entry(self.body, width=50)
         self.email_entry.grid(row=0, column=3, columnspan=7)
 
-        tk.Label(self.body, text='Password ').grid(row=1, column=0, columnspan=2, pady=5)
+        tk.Label(self.body, bg='#e6e6e6', text='Password ').grid(row=1, column=0, columnspan=2, pady=5)
         self.pass_entry = tk.Entry(self.body, width=50)
         self.pass_entry.grid(row=1, column=3, columnspan=7)
 
-        tk.Label(self.body, text='Search URL ').grid(row=2, column=0, columnspan=2, pady=5)
+        tk.Label(self.body, bg='#e6e6e6', text='Search URL ').grid(row=2, column=0, columnspan=2, pady=5)
         self.url_entry = tk.Entry(self.body, width=50)
         self.url_entry.grid(row=2, column=3, columnspan=7)
 
-        tk.Label(self.body, text='Limit ').grid(row=3, column=0, columnspan=2, pady=5)
+        tk.Label(self.body, bg='#e6e6e6', text='Limit ').grid(row=3, column=0, columnspan=2, pady=5)
         self.limit_entry = tk.Entry(self.body, width=50)
         self.limit_entry.grid(row=3, column=3, columnspan=7)
 

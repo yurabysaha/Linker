@@ -65,7 +65,6 @@ class Message:
                 self.text.insert('end', "Message was sent to: %s\n" % name[0])
                 self.text.see('end')
                 user.send_message(name[0])
-                # self.chrome.get(url='https://www.linkedin.com/mynetwork/invite-connect/connections')
                 time.sleep(31)
             self.text.insert('end', "Yonchi send all messages, Yeeeeee!\n")
             self.text.see('end')
