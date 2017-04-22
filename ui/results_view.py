@@ -17,7 +17,7 @@ class ResultsView:
         self.results_btn = tk.Button(self.body,
                                      text='Today report',
                                      fg='#ffffff',
-                                     bg='#545424', activebackground='#545424',
+                                     bg='#214312', activebackground='#545424',
                                      borderwidth=0,
                                      highlightthickness=0,
                                      width=18, height=2)
@@ -28,7 +28,7 @@ class ResultsView:
         self.all_results_btn = tk.Button(self.body,
                                      text='All report',
                                      fg='#ffffff',
-                                     bg='#545424', activebackground='#545424',
+                                     bg='#214312', activebackground='#545424',
                                      borderwidth=0,
                                      highlightthickness=0,
                                      width=18, height=2)

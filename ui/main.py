@@ -18,7 +18,7 @@ sys.stderr = open('error.log', 'w')
 sys.stdout = open('output.log', 'w')
 
 root = tk.Tk()
-root.title('Yonchi')
+root.title('Yonchi v 0.9')
 root.configure(background=MAIN_BG)
 root.resizable(width=False, height=False)
 root.minsize(width=500, height=500)
