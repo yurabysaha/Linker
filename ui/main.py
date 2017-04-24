@@ -7,6 +7,7 @@ import sys
 
 from ui.accept_view import AcceptView
 from ui.connect_view import ConnectView
+from ui.forward_view import ForwardView
 from ui.message_view import MessageView
 from ui.results_view import ResultsView
 from ui.settings_view import SettingsView
@@ -59,6 +60,12 @@ def open_message(event):
     for i in frames:
             frames[i].place_forget()
     MessageView(root, frames, textfield)
+
+
+def open_forward_message(event):
+    for i in frames:
+            frames[i].place_forget()
+    ForwardView(root, frames, textfield)
 
 
 def open_settings(event):
@@ -129,6 +136,18 @@ class Menu:
         self.message_btn.bind("<Button-1>", open_message)
         self.message_btn.place(x=0, y=154)
 
+        self.forward_message_btn = tk.Button(menu,
+                                     text='Forward Message',
+                                     highlightbackground=MAIN_BG,
+                                     highlightcolor=MAIN_BG,
+                                     bg='#e6e6e6', activebackground='#e6e6e6',
+                                     borderwidth=0,
+                                     highlightthickness=0,
+                                     width=18, height=2)
+
+        self.forward_message_btn.bind("<Button-1>", open_forward_message)
+        self.forward_message_btn.place(x=0, y=192)
+
         self.settings_btn = tk.Button(menu,
                                      text='Settings',
                                      highlightbackground=MAIN_BG,
@@ -139,7 +158,7 @@ class Menu:
                                      width=18, height=2)
 
         self.settings_btn.bind("<Button-1>", open_settings)
-        self.settings_btn.place(x=0, y=192)
+        self.settings_btn.place(x=0, y=230)
 
 
 if __name__ == "__main__":

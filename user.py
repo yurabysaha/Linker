@@ -16,7 +16,10 @@ try:
             accept_connect BOOLEAN DEFAULT 0,
             accept_date DATE,
             send_message BOOLEAN DEFAULT 0,
-            send_date  DATE
+            send_date  DATE,
+            second_message BOOLEAN DEFAULT 0,
+            second_message_date DATE,
+            finished BOOLEAN DEFAULT 0
             ,created_at datetime  NOT NULL  DEFAULT current_timestamp
             ,updated_at datetime  NOT NULL  DEFAULT current_timestamp
             );
@@ -123,16 +126,44 @@ def candidate_for_review():
 def count_connections():
     con = db.connect(database="../db")
     cur = con.cursor()
-    all = cur.execute("SELECT COUNT(*) FROM users;").fetchone()
-    today = cur.execute("SELECT COUNT(*) FROM users WHERE created_at >=DATE('now');").fetchone()
+    all_count = cur.execute("SELECT COUNT(*) FROM users;").fetchone()
+    today_count = cur.execute("SELECT COUNT(*) FROM users WHERE created_at >=DATE('now');").fetchone()
     con.close()
-    return today, all
+    return today_count, all_count
 
 
 def count_accepted():
     con = db.connect(database="../db")
     cur = con.cursor()
-    all = cur.execute("SELECT COUNT(*) FROM users WHERE accept_connect=1;").fetchone()
-    today = cur.execute("SELECT COUNT(*) FROM users WHERE accept_connect=1 AND created_at >=DATE('now');").fetchone()
+    all_count = cur.execute("SELECT COUNT(*) FROM users WHERE accept_connect=1;").fetchone()
+    today_count = cur.execute("SELECT COUNT(*) FROM users WHERE accept_connect=1 AND created_at >=DATE('now');").fetchone()
     con.close()
-    return today, all
+    return today_count, all_count
+
+
+def candidate_for_forward():
+    con = db.connect(database="../db")
+    cur = con.cursor()
+    cand = cur.execute("""SELECT name, send_date FROM users WHERE send_message=1 AND second_message=0 AND finished=0 AND send_date < DATE('now', '-7 days');""").fetchall()
+   # cand = cur.execute("""SELECT ;""").fetchall()
+
+    con.close()
+    return cand
+
+
+def finish(name):
+    con = db.connect(database="../db")
+    cur = con.cursor()
+    query = "UPDATE users SET finished=1 WHERE name=?;"
+    cur.execute(query, (name,))
+    con.commit()
+    con.close()
+
+
+def send_second_message(name):
+    con = db.connect(database="../db")
+    cur = con.cursor()
+    query = "UPDATE users SET finished=1, second_message=1, second_message_date=? WHERE name=?;"
+    cur.execute(query, (date.today(), name,))
+    con.commit()
+    con.close()
