@@ -39,7 +39,7 @@ class Results:
     def get_all_result(self):
         data = user.get_all_connection_results()
         workbook = xlsxwriter.Workbook('../reports/All_results.xlsx')
-        worksheet = workbook.add_worksheet()
+        worksheet = workbook.add_worksheet('results')
         worksheet.set_column('A:B', 25)
         worksheet.set_column('D:E', 25)
         format = workbook.add_format({'bold': True})
@@ -79,3 +79,28 @@ class Results:
                 index += 1
             row_for_date += counter -1
             counter +=1
+        all_connected = user.count_connections()[1][0]
+        all_accepted = user.count_accepted()[1][0]
+        chart_cheet = workbook.add_worksheet("Chart")
+        chart = workbook.add_chart({'type': 'pie'})
+
+        data = [
+            ['Send requests', 'Accept requests'],
+            [all_connected, all_accepted],
+        ]
+
+        chart_cheet.write_column('A1', data[0])
+        chart_cheet.write_column('B1', data[1])
+
+        chart.add_series({
+            'categories': '=Chart!$A$1:$A$2',
+            'values': '=Chart!$B$1:$B$2',
+            'points': [
+                {'fill': {'color': 'gray'}},
+                {'fill': {'color': 'green'}},
+            ],
+        })
+
+        chart_cheet.insert_chart('C3', chart)
+
+        workbook.close()
