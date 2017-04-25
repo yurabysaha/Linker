@@ -1,6 +1,7 @@
 import Tkinter as tk
 import threading
 import tkMessageBox
+import user
 from ConfigParser import RawConfigParser
 from forward import Forward
 
@@ -42,6 +43,8 @@ class ForwardView:
         config = RawConfigParser()
         config.read('../config.ini')
         self.mess_entry.insert(1.0, config.get('main', 'forward_message'))
+        data = user.candidate_for_forward()
+        tk.Label(self.body, bg='#e6e6e6', text='Candidate for second message: %s' % len(data)).place(x=10, y=360)
 
     def update_message_text(self, event):
         config = RawConfigParser()
