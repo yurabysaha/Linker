@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import Tkinter as tk
-
 import sys
 
 from ui.accept_view import AcceptView
@@ -19,7 +18,7 @@ sys.stderr = open('error.log', 'w')
 sys.stdout = open('output.log', 'w')
 
 root = tk.Tk()
-root.title('Yonchi v 0.9')
+root.title('Yonchi v 1.1')
 root.configure(background=MAIN_BG)
 root.resizable(width=False, height=False)
 root.minsize(width=500, height=500)
@@ -30,7 +29,6 @@ body = tk.Frame(root, bg=MAIN_BG)
 frames = {'logging': body}
 textfield = tk.Text(body, width=47, height=30, bg='#e6e6e6')
 textfield.place(x=0, y=4)
-
 
 def open_logging(event):
     for i in frames:

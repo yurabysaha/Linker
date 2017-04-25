@@ -1,6 +1,8 @@
+import random
 from ConfigParser import RawConfigParser
 
 import time
+
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
@@ -55,7 +57,10 @@ class Message:
                 message_button.click()
                 time.sleep(1)
                 text_field = self.chrome.find_element_by_xpath(".//textarea")
-                text = self.message_text % name[0]
+                if '%s' in self.message_text:
+                    text = self.message_text % name[0]
+                else:
+                    text = self.message_text
                 z = text.split('\n')
                 for i in z:
                     text_field.send_keys(i)
@@ -65,7 +70,7 @@ class Message:
                 self.text.insert('end', "Message was sent to: %s\n" % name[0])
                 self.text.see('end')
                 user.send_message(name[0])
-                time.sleep(31)
+                time.sleep(random.randrange(20, 40))
             self.text.insert('end', "Yonchi send all messages, Yeeeeee!\n")
             self.text.see('end')
             self.chrome.close()

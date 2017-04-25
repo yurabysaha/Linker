@@ -1,3 +1,4 @@
+import random
 import time
 from ConfigParser import RawConfigParser
 from selenium import webdriver
@@ -21,9 +22,9 @@ class Connect(object):
         chrome_options.add_experimental_option("prefs", prefs)
         chrome_options.add_argument('--lang=en')
         chrome_options.add_argument("start-maximized")
-        # self.chrome = webdriver.Chrome(executable_path='../chromedriver.exe', chrome_options=chrome_options)
-        self.chrome = webdriver.Chrome(executable_path='../chromedriver',
-                                       chrome_options=chrome_options)
+        self.chrome = webdriver.Chrome(executable_path='../chromedriver.exe', chrome_options=chrome_options)
+        #self.chrome = webdriver.Chrome(executable_path='../chromedriver',
+        #                               chrome_options=chrome_options)
         self.login()
         self.send_request()
 
@@ -49,7 +50,7 @@ class Connect(object):
                         # self.chrome.execute_script("window.scrollTo(0, 200)")
                         time.sleep(1)
                         item.click()
-                        time.sleep(31)
+                        time.sleep(random.randrange(20, 40))
                         try:
                             # chrome.find_element(By.XPATH, './/button[@name="cancel"]').click()
                             self.chrome.find_element(By.XPATH, './/button[text()="Send now"]').click()

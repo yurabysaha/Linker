@@ -146,7 +146,7 @@ def count_accepted():
 def candidate_for_forward():
     con = db.connect(database="../db")
     cur = con.cursor()
-    cand = cur.execute("""SELECT name FROM users WHERE send_message=1 AND second_message=0 AND finished=0 AND send_date < DATE('now', '-7 days');""").fetchall()
+    cand = cur.execute("""SELECT name FROM users WHERE send_message=1 AND second_message=0 AND finished=0 AND send_date < DATE('now', '-4 days');""").fetchall()
    # cand = cur.execute("""SELECT ;""").fetchall()
 
     con.close()

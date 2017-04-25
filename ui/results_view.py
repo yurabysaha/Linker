@@ -11,13 +11,12 @@ class ResultsView:
 
         self.body = tk.Frame(root, bg='#e6e6e6')
         frames['results'] = self.body
-
         frames['results'].place(x=120, y=0, width=380, height=435)
         tk.Label(self.body, bg='#e6e6e6', text='Generate Report').place(x=102, y=2)
         self.results_btn = tk.Button(self.body,
                                      text='Today report',
                                      fg='#ffffff',
-                                     bg='#214312', activebackground='#545424',
+                                     bg='#214312', activebackground='#214312',
                                      borderwidth=0,
                                      highlightthickness=0,
                                      width=18, height=2)
@@ -28,7 +27,7 @@ class ResultsView:
         self.all_results_btn = tk.Button(self.body,
                                      text='All report',
                                      fg='#ffffff',
-                                     bg='#214312', activebackground='#545424',
+                                     bg='#214312', activebackground='#214312',
                                      borderwidth=0,
                                      highlightthickness=0,
                                      width=18, height=2)

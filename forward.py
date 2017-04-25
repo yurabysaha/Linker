@@ -1,3 +1,4 @@
+import random
 from ConfigParser import RawConfigParser
 
 import time
@@ -50,12 +51,15 @@ class Forward:
             search_field.send_keys(Keys.ENTER)
             time.sleep(5)
             try:
-                first_item_list = self.chrome.find_element_by_xpath(".//div[@class='msg-conversations-container']//li[1]")
-                if first_item_list.get_attribute("class") == "msg-premium-mailboxes__mailbox":
-                    first_item_list = self.chrome.find_element_by_xpath(".//div[@class='msg-conversations-container']//li[2]")
-                first_item_list.click()
+                items_list = self.chrome.find_elements_by_xpath(".//div[@class='msg-conversations-container']//li")
+                for item in items_list:
+                    if item.get_attribute("class") == "msg-premium-mailboxes__mailbox":
+                        continue
+                    if item.find_element_by_xpath('.//h3').text == name[0]:
+                        item.click()
+                        break
             except NoSuchElementException:
-                self.text.insert('end', "Not found : %s\n" % name)
+                self.text.insert('end', "Not found : %s\n" % name[0])
                 self.text.see('end')
                 continue
             time.sleep(2)
@@ -68,7 +72,10 @@ class Forward:
                 else:
                     # Send forward message
                     text_field = self.chrome.find_element_by_xpath(".//textarea")
-                    text = self.forward_message % name[0]
+                    if '%s' in self.forward_message:
+                        text = self.forward_message % name[0]
+                    else:
+                        text = self.forward_message
                     z = text.split('\n')
                     for i in z:
                         text_field.send_keys(i)
@@ -78,7 +85,7 @@ class Forward:
                     self.text.insert('end', "Final message was sent to: %s\n" % name[0])
                     self.text.see('end')
                     user.send_second_message(name[0])
-                    time.sleep(31)
+                    time.sleep(random.randrange(20, 40))
         self.text.insert('end', "Yonchi send all final messages, Yeeeeee!\n")
         self.text.see('end')
         self.chrome.close()
