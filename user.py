@@ -91,7 +91,8 @@ def get_day_counter():
 def get_today_connection_results():
     con = db.connect(database="../db")
     cur = con.cursor()
-    users = cur.execute("SELECT name, accept_connect, send_message FROM users WHERE updated_at >=?;", (date.today(),)).fetchall()
+    users = cur.execute("SELECT name, accept_connect, send_message, second_message, finished FROM users "
+                        "WHERE updated_at >=?;", (date.today(),)).fetchall()
     con.close()
     return date.today(), users
 
@@ -99,7 +100,8 @@ def get_today_connection_results():
 def get_all_connection_results():
     con = db.connect(database="../db")
     cur = con.cursor()
-    users = cur.execute("SELECT strftime('%Y-%m-%d',created_at), name, accept_connect, send_message FROM users "
+    users = cur.execute("SELECT strftime('%Y-%m-%d',created_at), name, accept_connect, send_message, second_message, "
+                        "finished FROM users "
                         "ORDER BY strftime('%Y-%m-%d', created_at) desc;").fetchall()
     con.close()
     return users
