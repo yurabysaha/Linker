@@ -4,6 +4,10 @@
 import Tkinter as tk
 import sys
 
+import PIL
+from PIL import Image, ImageTk
+
+from backup import Backup
 from ui.accept_view import AcceptView
 from ui.connect_view import ConnectView
 from ui.forward_view import ForwardView
@@ -11,7 +15,7 @@ from ui.message_view import MessageView
 from ui.results_view import ResultsView
 from ui.settings_view import SettingsView
 
-MAIN_BG = '#242424'
+MAIN_BG = '#303030'
 
 # Потрібно щоб не вискакувало вікно на віндовсі при закритті програми
 sys.stderr = open('error.log', 'w')
@@ -19,6 +23,7 @@ sys.stdout = open('output.log', 'w')
 
 root = tk.Tk()
 root.title('Yonchi v 1.1')
+root.iconbitmap(default='logo.ico')
 root.configure(background=MAIN_BG)
 root.resizable(width=False, height=False)
 root.minsize(width=500, height=500)
@@ -179,9 +184,16 @@ class Menu:
         self.settings_btn.place(x=0, y=230)
         menu_btns.append(self.settings_btn)
 
+        # Logo
+        im = PIL.Image.open("logo.png")
+        photo = PIL.ImageTk.PhotoImage(im)
+        b = tk.Label(menu, image=photo, bg=MAIN_BG)
+        b.image = photo
+        b.place(x=8, y=310)
 
 if __name__ == "__main__":
     menu.place(x=0, y=0, width=120, height=500)
     body.place(x=120, y=0, width=380, height=500)
     Menu()
     root.mainloop()
+    Backup().send_backup_to_email()
