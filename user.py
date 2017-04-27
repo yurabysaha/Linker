@@ -138,7 +138,7 @@ def count_accepted():
     con = db.connect(database="../db")
     cur = con.cursor()
     all_count = cur.execute("SELECT COUNT(*) FROM users WHERE accept_connect=1;").fetchone()
-    today_count = cur.execute("SELECT COUNT(*) FROM users WHERE accept_connect=1 AND created_at >=DATE('now');").fetchone()
+    today_count = cur.execute("SELECT COUNT(*) FROM users WHERE accept_connect=1 AND accept_date >=DATE('now');").fetchone()
     con.close()
     return today_count, all_count
 

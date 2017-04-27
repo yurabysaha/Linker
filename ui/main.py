@@ -22,7 +22,7 @@ sys.stderr = open('error.log', 'w')
 sys.stdout = open('output.log', 'w')
 
 root = tk.Tk()
-root.title('Yonchi v 1.1')
+root.title('Yonchi v 1.1.1')
 root.iconbitmap(default='logo.ico')
 root.configure(background=MAIN_BG)
 root.resizable(width=False, height=False)
