@@ -56,7 +56,7 @@ class Connect(object):
                             self.chrome.find_element(By.XPATH, './/button[text()="Send now"]').click()
                             time.sleep(2)
                             full_name = item.get_attribute('aria-label').split('with ')
-                            self.text.insert('end', "{} was invited.\n".format(full_name[-1]))
+                            self.text.insert('end', "%s was invited.\n" % full_name[-1])
                             self.text.see('end')
                             user.create(full_name[-1])
                             counter += 1

@@ -18,7 +18,7 @@ class Backup:
         if self.backup_date != str(date.today()) or self.backup_date == '':
             email_from = "yonchibackup@gmail.com"
             email_to = "yonchibackup@gmail.com"
-            file_to_send = "db"
+            file_to_send = "../db"
             username = "yonchibackup@gmail.com"
             password = "YonchiWTF"
             msg = MIMEMultipart()
