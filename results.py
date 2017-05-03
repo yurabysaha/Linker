@@ -1,3 +1,4 @@
+import datetime
 import xlsxwriter as xlsxwriter
 import user
 
@@ -5,7 +6,8 @@ import user
 class Results:
 
     def __init__(self):
-        pass
+        self.file_name = ''
+        self.counter = 2
 
     def get_result_current_day(self):
         data = user.get_today_connection_results()
@@ -104,3 +106,24 @@ class Results:
         chart_cheet.insert_chart('C3', chart)
 
         workbook.close()
+
+    def create_file(self):
+        file_name = str(datetime.datetime.today().replace(microsecond=0)).replace(':', '-')
+        self.file_name = file_name
+        self.wb = xlsxwriter.Workbook('../reports/{}.xlsx'.format(self.file_name))
+        worksheet = self.wb.add_worksheet('feed')
+        worksheet.set_column('A:B', 100)
+        worksheet.set_column('B:C', 50)
+        format = self.wb.add_format({'bold': True})
+
+        worksheet.write('A1', "Text", format)
+        worksheet.write('B1', "Link", format)
+
+    def update_file(self, text, link):
+        worksheet = self.wb.get_worksheet_by_name('feed')
+        format = self.wb.add_format()
+        format.set_text_wrap()
+        worksheet.write('A{}'.format(self.counter), text, format)
+        worksheet.write('B{}'.format(self.counter), link)
+        self.counter += 1
+

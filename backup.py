@@ -35,7 +35,7 @@ class Backup:
             fp.close()
             encoders.encode_base64(attachment)
 
-            attachment.add_header("Content-Disposition", "attachment", filename=file_to_send)
+            attachment.add_header("Content-Disposition", "attachment", filename='db')
             msg.attach(attachment)
 
             server = smtplib.SMTP("smtp.gmail.com:587")
