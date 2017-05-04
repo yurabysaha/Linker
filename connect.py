@@ -23,7 +23,7 @@ class Connect(object):
         chrome_options.add_argument('--lang=en')
         chrome_options.add_argument("start-maximized")
         self.chrome = webdriver.Chrome(executable_path='../chromedriver.exe', chrome_options=chrome_options)
-        #self.chrome = webdriver.Chrome(executable_path='../chromedriver',
+        # self.chrome = webdriver.Chrome(executable_path='../chromedriver',
         #                               chrome_options=chrome_options)
         self.login()
         self.send_request()
@@ -50,19 +50,21 @@ class Connect(object):
                         # self.chrome.execute_script("window.scrollTo(0, 200)")
                         time.sleep(1)
                         item.click()
-                        time.sleep(random.randrange(20, 40))
+                        time.sleep(1)
                         try:
                             # chrome.find_element(By.XPATH, './/button[@name="cancel"]').click()
+                            if not self.chrome.find_element(By.XPATH, './/button[text()="Send now"]').is_enabled():
+                                print(self.chrome.find_element(By.XPATH, './/button[text()="Send now"]').is_enabled())
+                                self.text.insert('end', "Requires email\n")
+                                self.text.see('end')
+                                continue
                             self.chrome.find_element(By.XPATH, './/button[text()="Send now"]').click()
-                            time.sleep(2)
+                            time.sleep(random.randrange(20, 40))
                             full_name = item.get_attribute('aria-label').split('with ')
                             self.text.insert('end', "%s was invited.\n" % full_name[-1])
                             self.text.see('end')
                             user.create(full_name[-1])
                             counter += 1
-                        except NoSuchElementException:
-                            self.text.insert('end', "Requires email\n")
-                            self.text.see('end')
                         except Exception as e:
                             self.text.insert('end', "Yonchi joked: {}\n".format(e))
                             self.text.see('end')
@@ -81,24 +83,3 @@ class Connect(object):
                 counter += 1000000
         self.text.insert('end', "Yonchi used all limit !\n")
         self.text.see('end')
-                        # chrome.find_element(By.XPATH, './/button[text()="Send now"]').click()
-
-
-        # chrome.find_element_by_xpath("//fieldset/ol/li[1]/label/div[text()='1st']").click()
-        # time.sleep(5)
-        # chrome.find_element_by_xpath("//button/span/span[1]/h3[text()='Keywords']").click()
-        # time.sleep(5)
-        # chrome.find_element_by_id("advanced-search-title").send_keys('tra-ta-ta-ta')
-        # time.sleep(3)
-        # chrome.execute_script("window.scrollTo(0, 500)")
-        # time.sleep(3)
-        # chrome.find_element_by_xpath("//button/span/span[1]/h3[text()='Locations']").click()
-        # time.sleep(5)
-        # chrome.find_element_by_id("sf-facetGeoRegion-add").click()
-        # time.sleep(5)
-        # chrome.find_element_by_xpath("//div/div[1]/div/div/input[@placeholder='Type a location name']").send_keys("United States")
-        # time.sleep(5)
-        # chrome.find_element_by_xpath("//div/ul/li/div/h3").click()
-        # time.sleep(5)
-        # chrome.execute_script("window.scrollTo(0, 500)")
-        # time.sleep(3)
