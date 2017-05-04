@@ -1,39 +1,20 @@
 import time
-
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import user
-from ConfigParser import SafeConfigParser
-from selenium import webdriver
+from base import BaseMethod
 
 
-class Accept(object):
+class Accept(BaseMethod):
 
     def __init__(self, text):
+        BaseMethod.__init__(self)
         self.text = text
         self.WORK = True
-        config = SafeConfigParser()
-        config.read('../config.ini')
-        self.email = config.get('main', 'email')
-        self.password = config.get('main', 'password')
         self.blocks_count = 0
 
-        chrome_options = webdriver.ChromeOptions()
-        prefs = {"profile.default_content_setting_values.notifications": 2}
-        chrome_options.add_experimental_option("prefs", prefs)
-        chrome_options.add_argument('--lang=en')
-        chrome_options.add_argument("start-maximized")
-        self.chrome = webdriver.Chrome(executable_path='../chromedriver.exe', chrome_options=chrome_options)
-        # self.chrome = webdriver.Chrome(executable_path='{}/chromedriver'.format(os.getcwd()),
-        #                               chrome_options=chrome_options)
         self.login()
         self.find_accepted()
-
-    def login(self):
-        self.chrome.get(url='https://www.linkedin.com')
-        self.chrome.find_element_by_id('login-email').send_keys(self.email)
-        self.chrome.find_element_by_id('login-password').send_keys(self.password)
-        self.chrome.find_element_by_id('login-submit').click()
 
     # def find_accepted(self):
     #     self.chrome.get(url='https://www.linkedin.com/mynetwork/invite-connect/connections')
