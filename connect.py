@@ -35,13 +35,14 @@ class Connect(BaseMethod):
                             if not self.chrome.find_element(By.XPATH, './/button[text()="Send now"]').is_enabled():
                                 self.text.insert('end', "Requires email\n")
                                 self.text.see('end')
+                                self.chrome.find_element(By.XPATH, './/button[@name="cancel"]').click()
                                 continue
                             self.chrome.find_element(By.XPATH, './/button[text()="Send now"]').click()
-                            time.sleep(random.randrange(20, 40))
                             full_name = item.get_attribute('aria-label').split('with ')
                             self.text.insert('end', "%s was invited.\n" % full_name[-1])
                             self.text.see('end')
                             user.create(full_name[-1])
+                            time.sleep(random.randrange(20, 40))
                             counter += 1
                         except Exception as e:
                             self.text.insert('end', "Yonchi joked: {}\n".format(e))

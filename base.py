@@ -26,4 +26,3 @@ class BaseMethod:
         self.chrome.find_element_by_id('login-email').send_keys(self.email)
         self.chrome.find_element_by_id('login-password').send_keys(self.password)
         self.chrome.find_element_by_id('login-submit').click()
-

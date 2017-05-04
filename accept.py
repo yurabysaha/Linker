@@ -38,16 +38,18 @@ class Accept(BaseMethod):
             users = []
             for name in people:
                 if len(users) < 20:
-                    users.append(str(name[0]))
+                    users.append(name[0])
                     if name != people[-1]:
                         continue
-                cand = str(users).replace(',', ' OR ')
-                cand = 'firstname:(' + cand + ')'
                 self.chrome.get(url='https://www.linkedin.com/search/results/people/?facetNetwork=%5B%22F%22%5D&keywords=&origin=GLOBAL_SEARCH_HEADER')
                 time.sleep(5)
                 search_field = self.chrome.find_element_by_xpath(".//input[@placeholder='Search']")
-
-                search_field.send_keys(cand)
+                search_field.send_keys('firstname:(')
+                for i in users:
+                    search_field.send_keys(i)
+                    if i != users[-1]:
+                        search_field.send_keys(' OR ')
+                search_field.send_keys(')')
                 time.sleep(1)
                 search_field.send_keys(Keys.ENTER)
                 time.sleep(5)
@@ -55,10 +57,9 @@ class Accept(BaseMethod):
                 for i in list:
                     try:
                         user_name = i.find_element_by_xpath(".//h3/span[1]/span").text
-                        if user_name not in users:
-                            continue
-                        user.accept(user_name)
-                        self.text.insert('end', "%s -> accept us :)\n" % user_name)
+                        if user_name in users:
+                            user.accept(user_name)
+                            self.text.insert('end', "%s -> accept us :)\n" % user_name)
                     except Exception as e:
                         self.text.insert('end', "%s -> not accept us yet (:\n" % user_name)
                         self.text.see('end')
