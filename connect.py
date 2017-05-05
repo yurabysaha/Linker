@@ -37,6 +37,7 @@ class Connect(BaseMethod):
                                 self.text.see('end')
                                 self.chrome.find_element(By.XPATH, './/button[@name="cancel"]').click()
                                 continue
+                            # self.chrome.find_element(By.XPATH, './/button[@name="cancel"]').click()
                             self.chrome.find_element(By.XPATH, './/button[text()="Send now"]').click()
                             full_name = item.get_attribute('aria-label').split('with ')
                             self.text.insert('end', "%s was invited.\n" % full_name[-1])

@@ -36,7 +36,10 @@ class Message(BaseMethod):
                 time.sleep(1)
                 text_field = self.chrome.find_element_by_xpath(".//textarea")
                 if '%s' in self.message_text:
-                    text = self.message_text % name[0]
+                    z = name[0].split(' ')
+                    if '.' in z[0]:
+                        z[0] = z[0] + ' ' + z[1]
+                    text = self.message_text % z[0].title()
                 else:
                     text = self.message_text
                 z = text.split('\n')

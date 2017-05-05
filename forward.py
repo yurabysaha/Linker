@@ -52,7 +52,10 @@ class Forward(BaseMethod):
                     # Send forward message
                     text_field = self.chrome.find_element_by_xpath(".//textarea")
                     if '%s' in self.forward_message:
-                        text = self.forward_message % name[0]
+                        z = name[0].split(' ')
+                        if '.' in z[0]:
+                            z[0] = z[0] + ' ' + z[1]
+                        text = self.forward_message % z[0].title()
                     else:
                         text = self.forward_message
                     z = text.split('\n')

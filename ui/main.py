@@ -3,11 +3,13 @@
 
 import Tkinter as tk
 import sys
+import threading
 
 import PIL
 from PIL import Image, ImageTk
 
 from backup import Backup
+from feed import Feed
 from ui.accept_view import AcceptView
 from ui.connect_view import ConnectView
 from ui.forward_view import ForwardView
@@ -18,11 +20,11 @@ from ui.settings_view import SettingsView
 MAIN_BG = '#303030'
 
 # Потрібно щоб не вискакувало вікно на віндовсі при закритті програми
-sys.stderr = open('error.log', 'w')
-sys.stdout = open('output.log', 'w')
+# sys.stderr = open('error.log', 'w')
+# sys.stdout = open('output.log', 'w')
 
 root = tk.Tk()
-root.title('Yonchi v 1.1.3')
+root.title('Yonchi v 1.1.5d')
 root.iconbitmap(default='logo.ico')
 root.configure(background=MAIN_BG)
 root.resizable(width=False, height=False)
@@ -35,6 +37,12 @@ frames = {'logging': body}
 textfield = tk.Text(body, width=47, height=30, bg='#e6e6e6')
 textfield.place(x=0, y=4)
 menu_btns = []
+
+
+def start_feed(event):
+    t = threading.Thread(target=Feed)
+    t.start()
+root.bind("<f>", start_feed)
 
 
 def open_logging(event):
