@@ -30,7 +30,7 @@ class Forward(BaseMethod):
             search_field.send_keys(Keys.ENTER)
             time.sleep(5)
             try:
-                items_list = self.chrome.find_elements_by_xpath(".//div[@class='msg-conversations-container']//li")
+                items_list = self.chrome.find_elements_by_xpath(".//div[contains(@class, 'msg-conversations-container')]//li")
                 for item in items_list:
                     if item.get_attribute("class") == "msg-premium-mailboxes__mailbox":
                         continue
