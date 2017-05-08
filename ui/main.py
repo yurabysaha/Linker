@@ -24,7 +24,7 @@ MAIN_BG = '#303030'
 # sys.stdout = open('output.log', 'w')
 
 root = tk.Tk()
-root.title('Yonchi v 1.1.5d')
+root.title('Yonchi v 1.1.6d')
 root.iconbitmap(default='logo.ico')
 root.configure(background=MAIN_BG)
 root.resizable(width=False, height=False)
@@ -98,6 +98,7 @@ def active_menu_btn(event):
     for i in menu_btns:
         i.config(bg='#eeeeee', fg='#000000')
     event.widget.config(bg='#616161', fg='#ffffff')
+
 
 class Menu:
     def __init__(self):
