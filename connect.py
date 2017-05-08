@@ -35,7 +35,9 @@ class Connect(BaseMethod):
                             if not self.chrome.find_element(By.XPATH, './/button[text()="Send now"]').is_enabled():
                                 self.text.insert('end', "Requires email\n")
                                 self.text.see('end')
+                                time.sleep(2)
                                 self.chrome.find_element(By.XPATH, './/button[@name="cancel"]').click()
+                                time.sleep(2)
                                 continue
                             # self.chrome.find_element(By.XPATH, './/button[@name="cancel"]').click()
                             self.chrome.find_element(By.XPATH, './/button[text()="Send now"]').click()

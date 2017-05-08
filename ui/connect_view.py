@@ -6,6 +6,7 @@ from ConfigParser import RawConfigParser
 import user
 
 from connect import Connect
+from sales_tool import Sales
 
 
 class ConnectView:
