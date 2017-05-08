@@ -29,7 +29,7 @@ class Sales(BaseMethod):
             # -----------------
             self.chrome.get(filter_url)
             time.sleep(5)
-            list = self.chrome.find_elements(By.XPATH, ".//ul[@id='results-list']/li")
+            list = self.chrome.find_elements(By.XPATH, ".//ul[@id='results-list']/li//div[@class='content-wrapper']")
             if list:
                 for item in list:
                     verify_connect = item.find_elements(By.XPATH, ".//div[@class='secondary-actions-container']"
