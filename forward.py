@@ -2,7 +2,7 @@ import random
 import time
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
-import user
+from user import User
 from base import BaseMethod
 
 
@@ -15,7 +15,7 @@ class Forward(BaseMethod):
         self.resend_message()
 
     def resend_message(self):
-        people = user.candidate_for_forward()
+        people = User().candidate_for_forward()
         if not people:
             self.text.insert('end', "Nobody to send final messages :(\n")
             self.text.see('end')
@@ -47,7 +47,7 @@ class Forward(BaseMethod):
             if person_name == name[0]:
                 count_messages = self.chrome.find_elements_by_xpath(".//div[contains(@class, 'message-bubble')]")
                 if len(count_messages) > 1:
-                    user.finish(name[0])
+                    User().finish(name[0])
                 else:
                     # Send forward message
                     text_field = self.chrome.find_element_by_xpath(".//textarea")
@@ -66,7 +66,7 @@ class Forward(BaseMethod):
                     text_field.submit()
                     self.text.insert('end', "Final message was sent to: %s\n" % name[0])
                     self.text.see('end')
-                    user.send_second_message(name[0])
+                    User().send_second_message(name[0])
                     time.sleep(random.randrange(20, 40))
         self.text.insert('end', "Yonchi send all final messages, Yeeeeee!\n")
         self.text.see('end')

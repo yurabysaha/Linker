@@ -2,9 +2,7 @@ import Tkinter as tk
 import threading
 import tkMessageBox
 from ConfigParser import RawConfigParser
-
-import user
-
+from user import User
 from connect import Connect
 from sales_tool import Sales
 
@@ -16,7 +14,7 @@ class ConnectView:
         self.body = tk.Frame(root, bg='#e6e6e6')
         frames['connect'] = self.body
         self.body.place(x=120, y=0, width=380, height=500)
-        data = user.count_connections()
+        data = User().count_connections()
         tk.Label(self.body, bg='#e6e6e6', text='Today     |     All ').place(x=130, y=10)
         tk.Label(self.body, bg='#e6e6e6', text='Send requests  ').place(x=10, y=30)
         tk.Label(self.body, bg='#e6e6e6', text=' %s     |     %s ' % (data[0][0], data[1][0])).place(x=154, y=30)

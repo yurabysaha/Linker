@@ -1,7 +1,6 @@
 import Tkinter as tk
 import threading
-import user
-
+from user import User
 from accept import Accept
 
 
@@ -11,7 +10,7 @@ class AcceptView:
         self.body = tk.Frame(root, bg='#e6e6e6')
         frames['accept'] = self.body
         self.body.place(x=120, y=0, width=380, height=500)
-        data = user.count_accepted()
+        data = User().count_accepted()
         tk.Label(self.body, text='Today     |     All ', bg='#e6e6e6').place(x=130, y=10)
         tk.Label(self.body, text='Accept connect', bg='#e6e6e6').place(x=10, y=30)
         tk.Label(self.body, bg='#e6e6e6', text='%s     |     %s' % (data[0][0], data[1][0])).place(x=154, y=30)

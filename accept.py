@@ -1,8 +1,9 @@
 import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-import user
+
 from base import BaseMethod
+from user import User
 
 
 class Accept(BaseMethod):
@@ -33,7 +34,7 @@ class Accept(BaseMethod):
     #             time.sleep(5)
 
     def find_accepted(self):
-        people = user.candidate_for_review()
+        people = User().candidate_for_review()
         if people:
             users = []
             for name in people:
@@ -58,7 +59,7 @@ class Accept(BaseMethod):
                     try:
                         user_name = i.find_element_by_xpath(".//h3/span[1]/span").text
                         if user_name in users:
-                            user.accept(user_name)
+                            User().accept(user_name)
                             self.text.insert('end', "%s -> accept us :)\n" % user_name)
                     except Exception as e:
                         self.text.insert('end', "%s -> not accept us yet (:\n" % user_name)

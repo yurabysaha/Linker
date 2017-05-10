@@ -5,7 +5,7 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
-import user
+from user import User
 from base import BaseMethod
 
 
@@ -19,7 +19,7 @@ class Sales(BaseMethod):
         self.send_request()
 
     def send_request(self):
-        counter = user.get_day_counter()
+        counter = User().get_day_counter()
         page_number = 0
         while counter < self.limit:
             # Parse filter url
@@ -84,7 +84,7 @@ class Sales(BaseMethod):
                         self.chrome.find_element(By.XPATH, './/button[text()="Send Invitation"]').click()
                         self.text.insert('end', "%s was invited.\n" % full_name)
                         self.text.see('end')
-                        user.create(full_name)
+                        User().create(full_name)
                         time.sleep(random.randrange(20, 40))
                         counter += 1
                     except Exception as e:

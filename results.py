@@ -1,6 +1,6 @@
 import datetime
 import xlsxwriter as xlsxwriter
-import user
+from user import User
 
 
 class Results:
@@ -10,7 +10,7 @@ class Results:
         self.counter = 2
 
     def get_result_current_day(self):
-        data = user.get_today_connection_results()
+        data = User().get_today_connection_results()
         workbook = xlsxwriter.Workbook('../reports/{}.xlsx'.format(data[0]))
         worksheet = workbook.add_worksheet()
         worksheet.set_column('A:B', 25)
@@ -39,7 +39,7 @@ class Results:
             counter += 1
 
     def get_all_result(self):
-        data = user.get_all_connection_results()
+        data = User().get_all_connection_results()
         workbook = xlsxwriter.Workbook('../reports/All_results.xlsx')
         worksheet = workbook.add_worksheet('results')
         worksheet.set_column('A:B', 25)
@@ -81,8 +81,8 @@ class Results:
                 index += 1
             row_for_date += counter -1
             counter +=1
-        all_connected = user.count_connections()[1][0]
-        all_accepted = user.count_accepted()[1][0]
+        all_connected = User().count_connections()[1][0]
+        all_accepted = User().count_accepted()[1][0]
         chart_cheet = workbook.add_worksheet("Chart")
         chart = workbook.add_chart({'type': 'pie'})
 

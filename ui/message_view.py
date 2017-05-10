@@ -1,7 +1,7 @@
 import Tkinter as tk
 import threading
 import tkMessageBox
-import user
+from user import User
 from ConfigParser import RawConfigParser
 from message import Message
 
@@ -44,7 +44,7 @@ class MessageView:
         config.read('../config.ini')
         self.mess_entry.insert(1.0, config.get('main', 'message_text'))
 
-        data = user.candidate_for_message()
+        data = User().candidate_for_message()
         tk.Label(self.body, bg='#e6e6e6', text='Candidate for message: %s' % len(data)).place(x=10, y=360)
 
     def update_message_text(self, event):

@@ -1,10 +1,6 @@
 from ConfigParser import RawConfigParser
 
 import time
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-
-import user
 from base import BaseMethod
 from results import Results
 

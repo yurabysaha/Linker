@@ -1,7 +1,7 @@
 import random
 import time
 from selenium.webdriver.common.keys import Keys
-import user
+from user import User
 from base import BaseMethod
 
 
@@ -14,7 +14,7 @@ class Message(BaseMethod):
         self.send_message()
 
     def send_message(self):
-        people = user.candidate_for_message()
+        people = User().candidate_for_message()
         if people:
             for name in people:
                 self.chrome.get(url='https://www.linkedin.com/search/results/people/?facetNetwork=%5B%22F%22%5D&keywords=&origin=GLOBAL_SEARCH_HEADER')
@@ -50,7 +50,7 @@ class Message(BaseMethod):
                 text_field.submit()
                 self.text.insert('end', "Message was sent to: %s\n" % name[0])
                 self.text.see('end')
-                user.send_message(name[0])
+                User().send_message(name[0])
                 time.sleep(random.randrange(20, 40))
             self.text.insert('end', "Yonchi send all messages, Yeeeeee!\n")
             self.text.see('end')
