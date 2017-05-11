@@ -20,6 +20,9 @@ class Connect(BaseMethod):
         while counter < self.limit:
             self.chrome.get('{}&page={}'.format(self.search_link, page_number))
             time.sleep(5)
+            # Scroll page down for loading all list
+            self.chrome.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            time.sleep(1)
             list = self.chrome.find_elements(By.XPATH, ".//div[@class='search-results__cluster-content']/ul/li//button")
             if list:
                 for item in list:
@@ -28,7 +31,8 @@ class Connect(BaseMethod):
                     else:
                         # self.chrome.execute_script("window.scrollTo(0, 200)")
                         time.sleep(1)
-                        item.click()
+                        get_url_id = item.find_element_by_xpath("../../../div[contains(@class, 'search-result__info')]/a")
+                        link = get_url_id.get_attribute("href")
                         time.sleep(1)
                         try:
                             # chrome.find_element(By.XPATH, './/button[@name="cancel"]').click()
@@ -44,7 +48,7 @@ class Connect(BaseMethod):
                             full_name = item.get_attribute('aria-label').split('with ')
                             self.text.insert('end', "%s was invited.\n" % full_name[-1])
                             self.text.see('end')
-                            User().create(full_name[-1])
+                            User().create(full_name[-1], link)
                             time.sleep(random.randrange(20, 40))
                             counter += 1
                         except Exception as e:
