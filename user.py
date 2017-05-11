@@ -6,6 +6,9 @@ from ConfigParser import RawConfigParser
 from datetime import date
 from time import strftime
 
+import psycopg2
+import psycopg2.extras
+
 today = date(2013, 11, 1)
 c = db.connect(database="../db")
 cu = c.cursor()
@@ -15,6 +18,7 @@ try:
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             bot_name VARCHAR,
             name VARCHAR,
+            link VARCHAR,
             accept_connect BOOLEAN DEFAULT 0,
             accept_date DATE,
             send_message BOOLEAN DEFAULT 0,
@@ -43,19 +47,18 @@ c.close()
 
 def db_decorator(func):
     def a_wrapper_accepting_arbitrary_arguments(self, *args, **kwargs):
-        db_type = 1
         value = None
-        if db_type == 1 or db_type == 3:
+        if self.db_type == 1 or self.db_type == 3:
             self.con = db.connect(database="../db")
             self.cur = self.con.cursor()
             value = func(self, *args, **kwargs)
-        if db_type == 2 or db_type == 3:
-            pass
-            # self.con = db.connect(database="../db")
-            # self.cur = self.con.cursor()
-            # remote = func(self, *args, **kwargs)
-            # if value is None:
-            #     value = remote
+        if self.db_type == 2 or self.db_type == 3:
+            conn_string = "host='5.9.51.242' port='5432' dbname='db_botnet' user='postgres' password='pomason3'"
+            self.con = psycopg2.connect(conn_string)
+            self.cur = self.con.cursor(cursor_factory = psycopg2.extras.DictCursor)
+            remote = func(self, *args, **kwargs)
+            if value is None:
+                 value = remote
         return value
     return a_wrapper_accepting_arbitrary_arguments
 
@@ -65,10 +68,11 @@ class User:
         config = RawConfigParser()
         config.read('../config.ini')
         self.bot_name = config.get('main', 'email')
+        self.db_type = config.getint('main', 'db_type')
 
     @db_decorator
-    def create(self, name):
-        self.cur.execute("insert into users (bot_name, name) values (?)", (self.bot_name, name,))
+    def create(self, name, link):
+        self.cur.execute("insert into users (bot_name, name, link) values (?)", (self.bot_name, name, link,))
         self.con.commit()
         self.con.close()
 
