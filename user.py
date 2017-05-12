@@ -72,7 +72,8 @@ class User:
 
     @db_decorator
     def create(self, name, link):
-        self.cur.execute("insert into users (bot_name, name, link) values ('"+self.bot_name+"', '"+name+"', '"+link+"')")
+        # self.cur.execute("insert into users (bot_name, name, link) values (?, ?, ?);", (self.bot_name, name, link,))
+        self.cur.execute("insert into users (bot_name, name, link) values (%s, %s, %s);", (self.bot_name, name, link,))        self.cur.execute("insert into users (bot_name, name, link) values (%s, %s, %s);", (self.bot_name, name, link,))
         self.con.commit()
         self.con.close()
 
@@ -83,7 +84,6 @@ class User:
         # 2 - Такого користувача не знайдено в базі
         # 3 - У користувача вже є статус True
         user = self.cur.execute("SELECT * FROM users WHERE name=? AND bot_name=?;", (name, self.bot_name,)).fetchone()
-        user = self.cur.execute("SELECT * FROM users WHERE name='"+name+"' AND bot_name='"+self.bot_name+"';", (name, self.bot_name,)).fetchone()
         if user and not user[2]:
             query = "UPDATE users set accept_connect=1, accept_date=? WHERE name=? AND bot_name=?"
             self.cur.execute(query, (date.today(), name, self.bot_name,))
@@ -110,10 +110,10 @@ class User:
 
     @db_decorator
     def get_today_connection_results(self):
-        users = self.cur.execute("SELECT name, accept_connect, send_message, second_message, finished FROM users "
+         users = self.cur.execute("SELECT name, accept_connect, send_message, second_message, finished FROM users "
                             "WHERE updated_at >=? AND bot_name=?;", (date.today(), self.bot_name,)).fetchall()
-        self.con.close()
-        return date.today(), users
+         self.con.close()
+         return date.today(), users
 
     @db_decorator
     def get_all_connection_results(self):
