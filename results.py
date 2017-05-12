@@ -37,6 +37,7 @@ class Results:
             else:
                 worksheet.write('F{}'.format(counter), item[4])
             counter += 1
+        workbook.close()
 
     def get_all_result(self):
         data = User().get_all_connection_results()

@@ -87,7 +87,7 @@ class User:
         # 3 - У користувача вже є статус True
         self.cur.execute("SELECT * FROM users WHERE name=%s AND bot_name=%s;", (name, self.bot_name,))
         user = self.cur.fetchone()
-        if user and not user[2]:
+        if user and not user[4]:
             query = "UPDATE users set accept_connect= TRUE, accept_date=%s WHERE name=%s AND bot_name=%s"
             self.cur.execute(query, (date.today(), name, self.bot_name,))
             self.con.commit()
@@ -100,8 +100,7 @@ class User:
 
    # @db_decorator
     def send_message(self, name):
-        query = "UPDATE users set send_message=TRUE, send_date=? where name=%s AND bot_name=%s"
-        self.cur.execute(query, (date.today(), name, self.bot_name,))
+        self.cur.execute("UPDATE users set send_message=TRUE, send_date=%s where name=%s AND bot_name=%s", (date.today(), name, self.bot_name,))
         self.con.commit()
         self.con.close()
 
@@ -115,7 +114,7 @@ class User:
     #@db_decorator
     def get_today_connection_results(self):
          self.cur.execute("SELECT name, accept_connect, send_message, second_message, finished FROM users "
-                            "WHERE updated_at >=%s AND bot_name=%s;", (date.today(), self.bot_name,)).fetchall()
+                            "WHERE updated_at >=%s AND bot_name=%s;", (date.today(), self.bot_name,))
          users = self.cur.fetchall()
          self.con.close()
          return date.today(), users
@@ -167,7 +166,7 @@ class User:
 
    # @db_decorator
     def candidate_for_forward(self):
-        self.cur.execute("""SELECT name FROM users WHERE send_message=TRUE AND second_message= FALSE AND finished= FALSE AND send_date < DATE('now', '-4 days') AND bot_name=%s;""", (self.bot_name,))
+        self.cur.execute("""SELECT name FROM users WHERE send_message=TRUE AND second_message= FALSE AND finished= FALSE AND send_date < current_date - interval '5' day AND bot_name=%s;""", (self.bot_name,))
         cand = self.cur.fetchall()
         self.con.close()
         return cand

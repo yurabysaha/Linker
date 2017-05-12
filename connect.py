@@ -24,6 +24,7 @@ class Connect(BaseMethod):
             self.chrome.execute_script("window.scrollTo(0, document.body.scrollHeight);")
             time.sleep(1)
             list = self.chrome.find_elements(By.XPATH, ".//div[@class='search-results__cluster-content']/ul/li//button")
+            self.chrome.execute_script("window.scrollTo(0, 0);")
             if list:
                 for item in list:
                     if item.text != "Connect":
@@ -33,6 +34,8 @@ class Connect(BaseMethod):
                         time.sleep(1)
                         get_url_id = item.find_element_by_xpath("../../../div[contains(@class, 'search-result__info')]/a")
                         link = get_url_id.get_attribute("href")
+                        time.sleep(1)
+                        item.click()
                         time.sleep(1)
                         try:
                             # chrome.find_element(By.XPATH, './/button[@name="cancel"]').click()
