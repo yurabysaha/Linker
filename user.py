@@ -58,7 +58,7 @@ def db_decorator(func):
             self.cur = self.con.cursor(cursor_factory = psycopg2.extras.DictCursor)
             remote = func(self, *args, **kwargs)
             if value is None:
-                 value = remote
+                value = remote
         return value
     return a_wrapper_accepting_arbitrary_arguments
 
@@ -72,7 +72,7 @@ class User:
 
     @db_decorator
     def create(self, name, link):
-        self.cur.execute("insert into users (bot_name, name, link) values (?)", (self.bot_name, name, link,))
+        self.cur.execute("insert into users (bot_name, name, link) values ('"+self.bot_name+"', '"+name+"', '"+link+"')")
         self.con.commit()
         self.con.close()
 
@@ -83,6 +83,7 @@ class User:
         # 2 - Такого користувача не знайдено в базі
         # 3 - У користувача вже є статус True
         user = self.cur.execute("SELECT * FROM users WHERE name=? AND bot_name=?;", (name, self.bot_name,)).fetchone()
+        user = self.cur.execute("SELECT * FROM users WHERE name='"+name+"' AND bot_name='"+self.bot_name+"';", (name, self.bot_name,)).fetchone()
         if user and not user[2]:
             query = "UPDATE users set accept_connect=1, accept_date=? WHERE name=? AND bot_name=?"
             self.cur.execute(query, (date.today(), name, self.bot_name,))
