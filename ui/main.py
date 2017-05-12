@@ -8,7 +8,7 @@ import threading
 import PIL
 from PIL import Image, ImageTk
 
-from backup import Backup
+# from backup import Backup
 from feed import Feed
 from ui.accept_view import AcceptView
 from ui.connect_view import ConnectView
@@ -204,5 +204,5 @@ if __name__ == "__main__":
     menu.place(x=0, y=0, width=120, height=500)
     body.place(x=120, y=0, width=380, height=500)
     Menu()
-    Backup().send_backup_to_email()
+    # Backup().send_backup_to_email()
     root.mainloop()
