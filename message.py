@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import random
 import time
 from selenium.webdriver.common.keys import Keys
@@ -24,9 +27,11 @@ class Message(BaseMethod):
                 time.sleep(1)
                 search_field.send_keys(Keys.ENTER)
                 time.sleep(5)
+                linkedin_name = name[0].decode('utf8')
                 try:
                     user_name = self.chrome.find_element_by_xpath(".//h3/span[1]/span").text
-                    if user_name != name[0]:
+
+                    if user_name != linkedin_name:
                         continue
                 except Exception as e:
                     print (e)
@@ -36,7 +41,7 @@ class Message(BaseMethod):
                 time.sleep(1)
                 text_field = self.chrome.find_element_by_xpath(".//textarea")
                 if '%s' in self.message_text:
-                    z = name[0].split(' ')
+                    z = linkedin_name.split(' ')
                     if '.' in z[0]:
                         z[0] = z[0] + ' ' + z[1]
                     text = self.message_text % z[0].title()

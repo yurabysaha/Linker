@@ -12,7 +12,8 @@ setup(windows=['ui/main.py'],
                                'api-ms-win-core-profile-l1-1-0.dll',
                                'api-ms-win-core-libraryloader-l1-2-0.dll',
                                'api-ms-win-core-string-obsolete-l1-1-0.dll',
-                               'api-ms-win-security-activedirectoryclient-l1-1-0.dll']
+                               'api-ms-win-security-activedirectoryclient-l1-1-0.dll',
+                               'libpq.dll']
 
           }
       })

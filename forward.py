@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import random
 import time
 from selenium.common.exceptions import NoSuchElementException
@@ -28,23 +31,33 @@ class Forward(BaseMethod):
             search_field.clear()
             search_field.send_keys(name)
             search_field.send_keys(Keys.ENTER)
-            time.sleep(5)
+            # Cкролимо блок меседжів поки всі не загрузимо
+            scroll_block = True
+            while scroll_block:
+                time.sleep(5)
+                items_list = self.chrome.find_elements_by_xpath(".//div[contains(@class, 'msg-conversations-container')]//li")
+                self.chrome.execute_script("arguments[0].scrollIntoView(false);", items_list[-1])
+                time.sleep(5)
+                if items_list == self.chrome.find_elements_by_xpath(".//div[contains(@class, 'msg-conversations-container')]//li"):
+                    scroll_block = False
+
             try:
                 items_list = self.chrome.find_elements_by_xpath(".//div[contains(@class, 'msg-conversations-container')]//li")
                 for item in items_list:
                     if item.get_attribute("class") == "msg-premium-mailboxes__mailbox":
                         continue
-                    if item.find_element_by_xpath('.//h3').text == name[0]:
+                    if item.find_element_by_xpath('.//h3').text == name[0].decode('utf8'):
                         item.click()
                         break
             except NoSuchElementException:
-                self.text.insert('end', "Not found : %s\n" % name[0])
+                self.text.insert('end', "Not found : %s\n" % name[0].decode('utf8'))
                 self.text.see('end')
                 continue
             time.sleep(2)
             person_name = self.chrome.find_element_by_xpath(".//dt[@class='truncate']/h3").text
             time.sleep(1)
-            if person_name == name[0]:
+            linkedin_name = name[0].decode('utf8')
+            if person_name == linkedin_name:
                 count_messages = self.chrome.find_elements_by_xpath(".//div[contains(@class, 'message-bubble')]")
                 if len(count_messages) > 1:
                     User().finish(name[0])
@@ -52,7 +65,7 @@ class Forward(BaseMethod):
                     # Send forward message
                     text_field = self.chrome.find_element_by_xpath(".//textarea")
                     if '%s' in self.forward_message:
-                        z = name[0].split(' ')
+                        z = linkedin_name.split(' ')
                         if '.' in z[0]:
                             z[0] = z[0] + ' ' + z[1]
                         text = self.forward_message % z[0].title()

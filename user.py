@@ -131,16 +131,16 @@ class User:
 
    # @db_decorator
     def candidate_for_message(self):
-        self.cur.execute("SELECT name FROM users WHERE accept_connect=%s AND send_message=%s AND bot_name=%s;",
-                            (True, False, self.bot_name,))
+        self.cur.execute("SELECT name FROM users WHERE accept_connect=%s AND send_message=%s AND bot_name=%s AND finished=%s;",
+                            (True, False, self.bot_name, False,))
         users = self.cur.fetchall()
         self.con.close()
         return users
 
    # @db_decorator
     def candidate_for_review(self):
-        self.cur.execute("SELECT name FROM users WHERE accept_connect=%s AND send_message=%s  AND bot_name=%s;",
-                            (False, False, self.bot_name,))
+        self.cur.execute("SELECT name FROM users WHERE accept_connect=%s AND send_message=%s  AND bot_name=%s AND finished=%s;",
+                            (False, False, self.bot_name, False,))
         users =self.cur.fetchall()
         self.con.close()
         return users
