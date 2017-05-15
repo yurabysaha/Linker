@@ -53,35 +53,20 @@ class Results:
         worksheet.write('D1', "Send message", format)
         worksheet.write('E1', "Send second message", format)
         worksheet.write('F1', "Finished", format)
-        format_dict = {}
-        for date, value, accept, mes, second, finish in data:
-            try:
-                format_dict[date].append([value, accept, mes, second, finish])
-            except KeyError:
-                format_dict[date] = [[value, accept, mes, second, finish]]
 
-        keys = format_dict.keys()
-
-        row_for_date = 2
         counter = 2
-        for each in keys:
-            worksheet.write('A{}'.format(row_for_date), each, format)
-            index = 0
+        for each in data:
+            worksheet.write('A{}'.format(counter), each[0])
+            worksheet.write('B{}'.format(counter), each[1].decode('utf8'))
+            worksheet.write('C{}'.format(counter), str(each[2]))
+            worksheet.write('D{}'.format(counter), str(each[3]))
+            worksheet.write('E{}'.format(counter), str(each[4]))
+            if each[4] == True:
+                worksheet.write('F{}'.format(counter), str(each[5]), green)
+            else:
+                worksheet.write('F{}'.format(counter), str(each[5]))
+            counter += 1
 
-            for i in format_dict[each]:
-                worksheet.write('B{}'.format(counter), i[0])
-                worksheet.write('C{}'.format(counter), i[1])
-                worksheet.write('D{}'.format(counter), i[2])
-                worksheet.write('E{}'.format(counter), i[3])
-                if i[4] == 1:
-                    worksheet.write('F{}'.format(counter), i[4], green)
-                else:
-                    worksheet.write('F{}'.format(counter), i[4])
-
-                counter += 1
-                index += 1
-            row_for_date += counter -1
-            counter +=1
         all_connected = User().count_connections()[1][0]
         all_accepted = User().count_accepted()[1][0]
         chart_cheet = workbook.add_worksheet("Chart")

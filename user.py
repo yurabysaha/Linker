@@ -122,9 +122,7 @@ class User:
    # @db_decorator
     def get_all_connection_results(self):
         self.cur.execute(
-            "SELECT strftime('%Y-%m-%d',created_at), name, accept_connect, send_message, second_message, "
-            "finished FROM users WHERE bot_name=%s"
-            "ORDER BY strftime('%Y-%m-%d', created_at) desc;", (self.bot_name,))
+            "SELECT to_char(created_at, 'YYYY-MM-DD'), name, accept_connect, send_message, second_message, finished FROM users WHERE bot_name=%s ORDER BY created_at desc;", (self.bot_name,))
         users = self.cur.fetchall()
         self.con.close()
         return users
