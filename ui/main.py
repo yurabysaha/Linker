@@ -42,7 +42,7 @@ menu_btns = []
 def start_feed(event):
     t = threading.Thread(target=Feed)
     t.start()
-root.bind("<f>", start_feed)
+root.bind("<Control-f>", start_feed)
 
 
 def open_logging(event):

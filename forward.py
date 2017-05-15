@@ -33,17 +33,23 @@ class Forward(BaseMethod):
             search_field.send_keys(Keys.ENTER)
             # Cкролимо блок меседжів поки всі не загрузимо
             scroll_block = True
+            max_scroll = 0 #Баг на лінкедіні, вічний скролл
             while scroll_block:
                 time.sleep(5)
                 items_list = self.chrome.find_elements_by_xpath(".//div[contains(@class, 'msg-conversations-container')]//li")
-                self.chrome.execute_script("arguments[0].scrollIntoView(false);", items_list[-1])
+                self.chrome.execute_script("arguments[0].scrollIntoView(true);", items_list[0])
+                time.sleep(1)
+                self.chrome.execute_script("arguments[0].scrollIntoView(false);", items_list[-2])
                 time.sleep(5)
-                if items_list == self.chrome.find_elements_by_xpath(".//div[contains(@class, 'msg-conversations-container')]//li"):
+                if items_list == self.chrome.find_elements_by_xpath(".//div[contains(@class, 'msg-conversations-container')]//li")\
+                        or max_scroll == 5:
                     scroll_block = False
+                max_scroll += 1
 
             try:
                 items_list = self.chrome.find_elements_by_xpath(".//div[contains(@class, 'msg-conversations-container')]//li")
                 for item in items_list:
+                    self.chrome.execute_script("arguments[0].scrollIntoView(false);", item)
                     if item.get_attribute("class") == "msg-premium-mailboxes__mailbox":
                         continue
                     if item.find_element_by_xpath('.//h3').text == name[0].decode('utf8'):
