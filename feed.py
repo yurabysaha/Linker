@@ -14,7 +14,7 @@ class Feed(BaseMethod):
 
     def feed_news(self):
         keys = ['looking for', 'need full-stack developer', 'looking for full-stack developer', 'hiring developers',
-                'remote developer', 'need ios', 'need android']
+                'remote developer', 'need ios', 'need android', 'recommend company']
         find = True
         count = 0
         results = Results()

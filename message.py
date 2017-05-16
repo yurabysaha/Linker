@@ -63,3 +63,4 @@ class Message(BaseMethod):
         else:
             self.text.insert('end', "Nobody to send message, hahahahhahah!\n")
             self.text.see('end')
+            self.chrome.close()

@@ -106,3 +106,4 @@ class Sales(BaseMethod):
                 counter += 1000000
         self.text.insert('end', "Yonchi used all limit !\n")
         self.text.see('end')
+        self.chrome.close()
