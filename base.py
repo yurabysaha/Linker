@@ -5,11 +5,13 @@ from selenium import webdriver
 
 class BaseMethod:
     def __init__(self):
+
         chrome_options = webdriver.ChromeOptions()
         prefs = {"profile.default_content_setting_values.notifications": 2}
         chrome_options.add_experimental_option("prefs", prefs)
         chrome_options.add_argument('--lang=en')
         chrome_options.add_argument("start-maximized")
+        #self.chrome = webdriver.PhantomJS(executable_path='../phantomjs.exe')
         self.chrome = webdriver.Chrome(executable_path='../chromedriver.exe', chrome_options=chrome_options)
         # self.chrome = webdriver.Chrome(executable_path='../chromedriver'.format(os.getcwd()),
         #                                chrome_options=chrome_options)

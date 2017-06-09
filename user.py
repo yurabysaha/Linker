@@ -61,12 +61,16 @@ today = date(2013, 11, 1)
 #         return value
 #     return a_wrapper_accepting_arbitrary_arguments
 
-DB_TABLE = 'users'
+# 1q2w!@QW
+# alexandervojak@gmail.com
+# https://www.linkedin.com/search/results/people/?facetGeoRegion=%5B%22gb%3A0%22%5D&facetIndustry=%5B%2296%22%5D&facetNetwork=%5B%22S%22%5D&origin=FACETED_SEARCH&title=CEO
+DB_TABLE = 'tb_eq_users'
+# DB_TABLE = 'users'
 class User:
     def __init__(self):
         config = RawConfigParser()
         config.read('../config.ini')
-        self.bot_name = config.get('main', 'email')
+        self.bot_name = (config.get('main', 'email')).lower()
         self.db_type = config.getint('main', 'db_type')
         conn_string = "host='5.9.51.242' port='5432' dbname='db_botnet' user='postgres' password='pomason3'"
         self.con = psycopg2.connect(conn_string)

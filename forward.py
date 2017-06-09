@@ -60,7 +60,7 @@ class Forward(BaseMethod):
                 self.text.see('end')
                 continue
             time.sleep(2)
-            person_name = self.chrome.find_element_by_xpath(".//dt[@class='truncate']/h3").text
+            person_name = self.chrome.find_element_by_xpath(".//dt[@class='truncate']/h2").text
             time.sleep(1)
             linkedin_name = name[0].decode('utf8')
             if person_name == linkedin_name:
