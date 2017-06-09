@@ -52,8 +52,12 @@ class Connect(BaseMethod):
                             self.text.insert('end', "%s was invited.\n" % full_name[-1])
                             self.text.see('end')
                             User().create(full_name[-1], link)
-                            time.sleep(random.randrange(20, 40))
                             counter += 1
+                            if counter != 0 and counter % 10 == 0 and counter < 1000000:
+                                self.text.insert('end', "Current added -> {}\n".format(counter))
+                                self.text.see('end')
+
+                            time.sleep(random.randrange(20, 40))
                         except Exception as e:
                             self.text.insert('end', "Yonchi joked: {}\n".format(e))
                             self.text.see('end')
@@ -63,9 +67,6 @@ class Connect(BaseMethod):
                             counter += 1000000
                             break
                 page_number += 1
-                if counter != 0 and counter % 10 == 0 and counter < 1000000:
-                    self.text.insert('end', "Current added -> {}\n".format(counter))
-                    self.text.see('end')
             else:
                 self.text.insert('end', "Yonchi finished work !\n")
                 self.text.see('end')

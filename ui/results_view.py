@@ -11,8 +11,8 @@ class ResultsView:
 
         self.body = tk.Frame(root, bg='#e6e6e6')
         frames['results'] = self.body
-        frames['results'].place(x=120, y=0, width=380, height=435)
-        tk.Label(self.body, bg='#e6e6e6', text='Generate Report').place(x=102, y=2)
+        frames['results'].place(x=0, y=340, width=700, height=260)
+        tk.Label(self.body, bg='#e6e6e6', text='Generate Report').place(x=240, y=3)
         self.results_btn = tk.Button(self.body,
                                      text='Today report',
                                      fg='#ffffff',
@@ -22,7 +22,7 @@ class ResultsView:
                                      width=18, height=2)
 
         self.results_btn.bind("<Button-1>", self.generate_report)
-        self.results_btn.place(x=20, y=30)
+        self.results_btn.place(x=150, y=200)
 
         self.all_results_btn = tk.Button(self.body,
                                      text='All report',
@@ -33,7 +33,7 @@ class ResultsView:
                                      width=18, height=2)
 
         self.all_results_btn.bind("<Button-1>", self.generate_all_report)
-        self.all_results_btn.place(x=170, y=30)
+        self.all_results_btn.place(x=300, y=200)
 
     def generate_report(self, event):
         self.results_btn.unbind("<Button-1>")

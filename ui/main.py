@@ -6,7 +6,6 @@ import sys
 import threading
 
 import PIL
-from PIL import Image, ImageTk
 
 # from backup import Backup
 from feed import Feed
@@ -24,17 +23,17 @@ MAIN_BG = '#303030'
 # sys.stdout = open('output.log', 'w')
 
 root = tk.Tk()
-root.title('Yonchi v 1.4.1d')
+root.title('Yonchi v 2.0d')
 root.iconbitmap(default='logo.ico')
 root.configure(background=MAIN_BG)
 root.resizable(width=False, height=False)
-root.minsize(width=500, height=500)
+root.minsize(width=600, height=600)
 
 
 menu = tk.Frame(root, bg=MAIN_BG)
 body = tk.Frame(root, bg=MAIN_BG)
-frames = {'logging': body}
-textfield = tk.Text(body, width=47, height=30, bg='#e6e6e6')
+frames = {}
+textfield = tk.Text(body, width=74, height=18, bg='#e6e6e6')
 textfield.place(x=0, y=4)
 menu_btns = []
 
@@ -43,13 +42,6 @@ def start_feed(event):
     t = threading.Thread(target=Feed)
     t.start()
 root.bind("<Control-f>", start_feed)
-
-
-def open_logging(event):
-    active_menu_btn(event)
-    for i in frames:
-        frames[i].place_forget()
-    body.place(x=120, y=0, width=380, height=500)
 
 
 def open_connect(event):
@@ -102,19 +94,6 @@ def active_menu_btn(event):
 
 class Menu:
     def __init__(self):
-        self.logging_btn = tk.Button(menu,
-                                     text='Process log',
-                                     highlightbackground=MAIN_BG,
-                                     bg='#eeeeee', activebackground=MAIN_BG,
-                                     highlightcolor='#ff5722',
-                                     borderwidth=0,
-                                     highlightthickness=0,
-                                     width=18, height=2)
-
-        self.logging_btn.bind("<Button-1>", open_logging)
-        self.logging_btn.place(x=0, y=2)
-        menu_btns.append(self.logging_btn)
-
         self.process_btn = tk.Button(menu,
                                      text='Connect',
                                      highlightbackground=MAIN_BG,
@@ -122,10 +101,10 @@ class Menu:
                                      bg='#eeeeee', activebackground='#e6e6e6',
                                      borderwidth=0,
                                      highlightthickness=0,
-                                     width=18, height=2)
+                                     width=13, height=2)
 
         self.process_btn.bind("<Button-1>", open_connect)
-        self.process_btn.place(x=0, y=40)
+        self.process_btn.place(x=1, y=0)
         menu_btns.append(self.process_btn)
 
         self.accept_btn = tk.Button(menu,
@@ -135,10 +114,10 @@ class Menu:
                                      bg='#eeeeee', activebackground='#e6e6e6',
                                      borderwidth=0,
                                      highlightthickness=0,
-                                     width=18, height=2)
+                                     width=13, height=2)
 
         self.accept_btn.bind("<Button-1>", open_accept)
-        self.accept_btn.place(x=0, y=78)
+        self.accept_btn.place(x=101, y=0)
         menu_btns.append(self.accept_btn)
 
         self.results_btn = tk.Button(menu,
@@ -148,10 +127,10 @@ class Menu:
                                     bg='#eeeeee', activebackground='#e6e6e6',
                                     borderwidth=0,
                                     highlightthickness=0,
-                                    width=18, height=2)
+                                    width=13, height=2)
 
         self.results_btn.bind("<Button-1>", open_results)
-        self.results_btn.place(x=0, y=116)
+        self.results_btn.place(x=201, y=0)
         menu_btns.append(self.results_btn)
 
         self.message_btn = tk.Button(menu,
@@ -161,10 +140,10 @@ class Menu:
                                      bg='#eeeeee', activebackground='#e6e6e6',
                                      borderwidth=0,
                                      highlightthickness=0,
-                                     width=18, height=2)
+                                     width=13, height=2)
 
         self.message_btn.bind("<Button-1>", open_message)
-        self.message_btn.place(x=0, y=154)
+        self.message_btn.place(x=301, y=0)
         menu_btns.append(self.message_btn)
 
         self.forward_message_btn = tk.Button(menu,
@@ -174,10 +153,10 @@ class Menu:
                                      bg='#eeeeee', activebackground='#e6e6e6',
                                      borderwidth=0,
                                      highlightthickness=0,
-                                     width=18, height=2)
+                                     width=13, height=2)
 
         self.forward_message_btn.bind("<Button-1>", open_forward_message)
-        self.forward_message_btn.place(x=0, y=192)
+        self.forward_message_btn.place(x=401, y=0)
         menu_btns.append(self.forward_message_btn)
 
         self.settings_btn = tk.Button(menu,
@@ -187,22 +166,17 @@ class Menu:
                                      bg='#eeeeee', activebackground='#e6e6e6',
                                      borderwidth=0,
                                      highlightthickness=0,
-                                     width=18, height=2)
+                                     width=13, height=2)
 
         self.settings_btn.bind("<Button-1>", open_settings)
-        self.settings_btn.place(x=0, y=230)
+        self.settings_btn.place(x=501, y=0)
         menu_btns.append(self.settings_btn)
 
-        # Logo
-        im = PIL.Image.open("logo.png")
-        photo = PIL.ImageTk.PhotoImage(im)
-        b = tk.Label(menu, image=photo, bg=MAIN_BG)
-        b.image = photo
-        b.place(x=8, y=310)
-
 if __name__ == "__main__":
-    menu.place(x=0, y=0, width=120, height=500)
-    body.place(x=120, y=0, width=380, height=500)
-    Menu()
+    body.place(x=0, y=0, width=700, height=300)
+    menu.place(x=0, y=300, width=700, height=300)
+    menu = Menu()
+    menu.process_btn.config(bg='#616161', fg='#ffffff')
+    ConnectView(root, frames, textfield)
     # Backup().send_backup_to_email()
     root.mainloop()

@@ -13,15 +13,15 @@ class ConnectView:
         self.text = textfield
         self.body = tk.Frame(root, bg='#e6e6e6')
         frames['connect'] = self.body
-        self.body.place(x=120, y=0, width=380, height=500)
+        self.body.place(x=0, y=340, width=700, height=260)
         data = User().count_connections()
-        tk.Label(self.body, bg='#e6e6e6', text='Today     |     All ').place(x=130, y=10)
-        tk.Label(self.body, bg='#e6e6e6', text='Send requests  ').place(x=10, y=30)
-        tk.Label(self.body, bg='#e6e6e6', text=' %s     |     %s ' % (data[0][0], data[1][0])).place(x=154, y=30)
+        tk.Label(self.body, bg='#e6e6e6', text='Today     |     All ').place(x=410, y=100)
+        tk.Label(self.body, bg='#e6e6e6', text='Send requests  ').place(x=420, y=70)
+        tk.Label(self.body, bg='#e6e6e6', text=' %s     |     %s ' % (data[0][0], data[1][0])).place(x=422, y=120)
 
-        tk.Label(self.body, bg='#e6e6e6', text='Message Text For Sales Connect').place(x=10, y=60)
-        self.sales_mess_entry = tk.Text(self.body, width=46, height=14)
-        self.sales_mess_entry.place(x=10, y=80)
+        tk.Label(self.body, bg='#e6e6e6', text='Message Text For Sales Connect').place(x=1, y=1)
+        self.sales_mess_entry = tk.Text(self.body, width=38, height=13)
+        self.sales_mess_entry.place(x=10, y=24)
 
         config = RawConfigParser()
         config.read('../config.ini')
@@ -33,10 +33,10 @@ class ConnectView:
                                          bg='#214312', activebackground='#e6e6e6',
                                          borderwidth=0,
                                          highlightthickness=0,
-                                         width=18, height=2)
+                                         width=13, height=2)
 
         self.update_mess_btn.bind("<Button-1>", self.update_message_text)
-        self.update_mess_btn.place(x=130, y=320)
+        self.update_mess_btn.place(x=330, y=24)
 
         self.connect_btn = tk.Button(self.body,
                                      text='Start Simple Connect',
@@ -44,10 +44,10 @@ class ConnectView:
                                      bg='#214312', activebackground='#e6e6e6',
                                      borderwidth=0,
                                      highlightthickness=0,
-                                     width=18, height=2)
+                                     width=17, height=2)
 
         self.connect_btn.bind("<Button-1>", self.start_connect)
-        self.connect_btn.place(x=40, y=450)
+        self.connect_btn.place(x=330, y=200)
 
         self.sales_connect_btn = tk.Button(self.body,
                                      text='Start Sales Connect',
@@ -55,10 +55,10 @@ class ConnectView:
                                      bg='#214312', activebackground='#e6e6e6',
                                      borderwidth=0,
                                      highlightthickness=0,
-                                     width=18, height=2)
+                                     width=17, height=2)
 
         self.sales_connect_btn.bind("<Button-1>", self.start_sales_connect)
-        self.sales_connect_btn.place(x=180, y=450)
+        self.sales_connect_btn.place(x=460, y=200)
 
     def start_connect(self, event):
             self.connect_btn.unbind("<Button 1>")

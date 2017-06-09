@@ -5,13 +5,17 @@ import Tkinter as tk
 import tkMessageBox
 from ConfigParser import RawConfigParser
 
+import PIL
+from PIL import Image, ImageTk
+
+
 
 class SettingsView:
     def __init__(self, root, frames):
         self.body = tk.Frame(root, bg='#e6e6e6')
         frames['settings'] = self.body
 
-        self.body.place(x=120, y=0, width=380, height=500)
+        self.body.place(x=0, y=340, width=700, height=260)
 
         tk.Label(self.body, bg='#e6e6e6', text='Login ').grid(row=0, column=0, columnspan=2, pady=5)
         self.email_entry = tk.Entry(self.body, width=50)
@@ -37,6 +41,10 @@ class SettingsView:
         self.limit_entry = tk.Entry(self.body, width=50)
         self.limit_entry.grid(row=4, column=3, columnspan=7)
 
+        self.var = tk.IntVar()
+        self.check_box = tk.Checkbutton(self.body, bg='#e6e6e6', text=" Run with browser ", variable=self.var, command=self.update_browser)
+        self.check_box.grid(row=5, column=1, columnspan=5)
+
         self.results_btn = tk.Button(self.body,
                                      text='Update info',
                                      fg='#ffffff',
@@ -46,7 +54,15 @@ class SettingsView:
                                      width=18, height=2)
 
         self.results_btn.bind("<Button-1>", self.update_settings)
-        self.results_btn.place(x=130, y=450)
+        self.results_btn.place(x=250, y=200)
+
+        # Logo
+        im = PIL.Image.open("logo.png")
+        photo = PIL.ImageTk.PhotoImage(im)
+        b = tk.Label(self.body, image=photo, bg='#e6e6e6')
+        b.image = photo
+        b.place(x=430, y=55)
+
         # Заповнюємо поля даними з конфіга
         config = RawConfigParser()
         config.read('../config.ini')
@@ -55,6 +71,8 @@ class SettingsView:
         self.url_entry.insert(0, config.get('main', 'search_link'))
         self.sales_url_entry.insert(0, config.get('main', 'sales_url'))
         self.limit_entry.insert(0, config.get('main', 'day_limit'))
+        if config.get('main', 'browser') == '1':
+            self.check_box.select()
 
     def update_settings(self, event):
         config = RawConfigParser()
@@ -75,3 +93,10 @@ class SettingsView:
 
     def clear_sales_url_field(self, event):
         self.sales_url_entry.delete(0, 'end')
+
+    def update_browser(self):
+        config = RawConfigParser()
+        config.read('../config.ini')
+        config.set('main', 'browser', str(self.var.get()))
+        with open('../config.ini', 'w') as f:
+            config.write(f)

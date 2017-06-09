@@ -12,11 +12,11 @@ class ForwardView:
         self.body = tk.Frame(root, bg='#e6e6e6')
         frames['forward'] = self.body
 
-        frames['forward'].place(x=120, y=0, width=380, height=500)
+        frames['forward'].place(x=0, y=340, width=700, height=260)
 
-        tk.Label(self.body, bg='#e6e6e6', text='Message Text for forward').grid(row=0, column=0, columnspan=2, pady=5)
-        self.mess_entry = tk.Text(self.body, width=46, height=17)
-        self.mess_entry.grid(row=1, column=1, columnspan=7)
+        tk.Label(self.body, bg='#e6e6e6', text='Message Text for forward').place(x=1, y=1)
+        self.mess_entry = tk.Text(self.body, width=38, height=13)
+        self.mess_entry.place(x=10, y=24)
 
         self.update_mess_btn = tk.Button(self.body,
                                          text='Update info',
@@ -24,10 +24,10 @@ class ForwardView:
                                          bg='#214312', activebackground='#e6e6e6',
                                          borderwidth=0,
                                          highlightthickness=0,
-                                         width=18, height=2)
+                                         width=13, height=2)
 
         self.update_mess_btn.bind("<Button-1>", self.update_message_text)
-        self.update_mess_btn.place(x=130, y=320)
+        self.update_mess_btn.place(x=330, y=24)
 
         self.send_mess_btn = tk.Button(self.body,
                                      text='Send messages again',
@@ -38,13 +38,13 @@ class ForwardView:
                                      width=18, height=2)
 
         self.send_mess_btn.bind("<Button-1>", self.send_message)
-        self.send_mess_btn.place(x=130, y=450)
+        self.send_mess_btn.place(x=390, y=200)
 
         config = RawConfigParser()
         config.read('../config.ini')
         self.mess_entry.insert(1.0, config.get('main', 'forward_message'))
         data = User().candidate_for_forward()
-        tk.Label(self.body, bg='#e6e6e6', text='Candidate for second message: %s' % len(data)).place(x=10, y=360)
+        tk.Label(self.body, bg='#e6e6e6', text='Candidate for second message: %s' % len(data)).place(x=330, y=70)
 
     def update_message_text(self, event):
         config = RawConfigParser()
