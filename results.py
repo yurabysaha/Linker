@@ -28,14 +28,14 @@ class Results:
 
         counter = 2
         for item in data[1]:
-            worksheet.write('B{}'.format(counter), item[0])
-            worksheet.write('C{}'.format(counter), item[1])
-            worksheet.write('D{}'.format(counter), item[2])
-            worksheet.write('E{}'.format(counter), item[3])
+            worksheet.write('B{}'.format(counter), item[0].decode('utf-8'))
+            worksheet.write('C{}'.format(counter), str(item[1]))
+            worksheet.write('D{}'.format(counter),  str(item[2]))
+            worksheet.write('E{}'.format(counter),  str(item[3]))
             if item[4] == 1:
-                worksheet.write('F{}'.format(counter), item[4], green)
+                worksheet.write('F{}'.format(counter), str(item[4]), green)
             else:
-                worksheet.write('F{}'.format(counter), item[4])
+                worksheet.write('F{}'.format(counter), str(item[4]))
             counter += 1
         workbook.close()
 
