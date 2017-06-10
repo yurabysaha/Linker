@@ -8,11 +8,13 @@ from user import User
 
 class Accept(BaseMethod):
 
-    def __init__(self, text):
+    def __init__(self, text, view):
         BaseMethod.__init__(self)
         self.text = text
+        self.view = view
         self.WORK = True
         self.blocks_count = 0
+        self.count_for_stop = 0
 
         self.login()
         self.find_accepted()
@@ -23,15 +25,25 @@ class Accept(BaseMethod):
             blocks = self.chrome.find_elements_by_xpath("//div[@class='core-rail']/div/ul/li")
             for u in blocks[self.blocks_count:]:
                 name = u.find_element_by_xpath('./div/div/a/span[2]').text
-                if User().accept(name) == 3:
-                    # self.WORK = False
+                accept = User().accept(name)
+                if accept == 3:
+                    self.count_for_stop += 1
+                    if self.count_for_stop >= 30:
+                        self.WORK = False
                     pass
+                if accept == 1:
+                    self.view.counts_update()
+                    self.count_for_stop = 0
                 self.text.insert('end', "Yonchi verify -> %s \n" % name)
                 self.text.see('end')
             if self.WORK:
                 self.blocks_count = len(blocks)
                 self.chrome.execute_script("window.scrollTo(0, document.body.scrollHeight);")
                 time.sleep(5)
+            else:
+                self.text.insert('end', "Yonchi think that nobody accepted you more")
+                self.text.see('end')
+                self.chrome.close()
 
     # def find_accepted(self):
     #     people = User().candidate_for_review()

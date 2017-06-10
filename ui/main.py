@@ -23,7 +23,7 @@ MAIN_BG = '#303030'
 # sys.stdout = open('output.log', 'w')
 
 root = tk.Tk()
-root.title('Yonchi v 2.0d')
+root.title('Yonchi v 2.0')
 root.iconbitmap(default='logo.ico')
 root.configure(background=MAIN_BG)
 root.resizable(width=False, height=False)
@@ -48,42 +48,57 @@ def open_connect(event):
     active_menu_btn(event)
     for i in frames:
         frames[i].place_forget()
-    ConnectView(root, frames, textfield)
+    frames['connect'].place(x=0, y=340, width=700, height=260)
 
 
 def open_accept(event):
     active_menu_btn(event)
     for i in frames:
             frames[i].place_forget()
-    AcceptView(root, frames, textfield)
+    if 'accept' not in frames:
+        AcceptView(root, frames, textfield)
+    else:
+        frames['accept'].place(x=0, y=340, width=700, height=260)
 
 
 def open_results(event):
     active_menu_btn(event)
     for i in frames:
             frames[i].place_forget()
-    ResultsView(root, frames)
+    if 'results' not in frames:
+        ResultsView(root, frames)
+    else:
+        frames['results'].place(x=0, y=340, width=700, height=260)
 
 
 def open_message(event):
     active_menu_btn(event)
     for i in frames:
             frames[i].place_forget()
-    MessageView(root, frames, textfield)
+    if 'message' not in frames:
+        MessageView(root, frames, textfield)
+    else:
+        frames['message'].place(x=0, y=340, width=700, height=260)
 
 
 def open_forward_message(event):
     active_menu_btn(event)
     for i in frames:
             frames[i].place_forget()
-    ForwardView(root, frames, textfield)
+    if 'forward' not in frames:
+        ForwardView(root, frames, textfield)
+    else:
+        frames['forward'].place(x=0, y=340, width=700, height=260)
 
 
 def open_settings(event):
     active_menu_btn(event)
     for i in frames:
             frames[i].place_forget()
-    SettingsView(root, frames)
+    if 'settings' not in frames:
+        SettingsView(root, frames)
+    else:
+        frames['settings'].place(x=0, y=340, width=700, height=260)
 
 
 def active_menu_btn(event):

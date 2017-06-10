@@ -15,9 +15,12 @@ class ConnectView:
         frames['connect'] = self.body
         self.body.place(x=0, y=340, width=700, height=260)
         data = User().count_connections()
+        self.count_today = data[0][0]
+        self.count_all = data[1][0]
         tk.Label(self.body, bg='#e6e6e6', text='Today     |     All ').place(x=410, y=100)
         tk.Label(self.body, bg='#e6e6e6', text='Send requests  ').place(x=420, y=70)
-        tk.Label(self.body, bg='#e6e6e6', text=' %s     |     %s ' % (data[0][0], data[1][0])).place(x=422, y=120)
+        self.counts = tk.Label(self.body, bg='#e6e6e6', text=' %s     |     %s ' % (self.count_today, self.count_all))
+        self.counts.place(x=422, y=120)
 
         tk.Label(self.body, bg='#e6e6e6', text='Message Text For Sales Connect').place(x=1, y=1)
         self.sales_mess_entry = tk.Text(self.body, width=38, height=13)
@@ -63,7 +66,7 @@ class ConnectView:
     def start_connect(self, event):
             self.connect_btn.unbind("<Button 1>")
             self.connect_btn.config(state='disabled')
-            t = threading.Thread(target=Connect, args=(self.text,))
+            t = threading.Thread(target=Connect, args=(self.text, self))
             t.start()
             self.text.insert('end', "Start Simple Connect people\n")
 
@@ -83,3 +86,8 @@ class ConnectView:
             config.write(f)
 
         tkMessageBox.showinfo("Updated", "Message text update successful")
+
+    def counts_update(self):
+        self.count_today += 1
+        self.count_all += 1
+        self.counts.config(text=' %s     |     %s ' % (self.count_today, self.count_all))

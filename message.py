@@ -9,9 +9,10 @@ from base import BaseMethod
 
 
 class Message(BaseMethod):
-    def __init__(self, text):
+    def __init__(self, text, view):
         BaseMethod.__init__(self)
         self.text = text
+        self.view = view
 
         self.login()
         self.send_message()
@@ -56,6 +57,7 @@ class Message(BaseMethod):
                 self.text.insert('end', "Message was sent to: %s\n" % name[0])
                 self.text.see('end')
                 User().send_message(name[0])
+                self.view.update_count()
                 time.sleep(random.randrange(20, 40))
             self.text.insert('end', "Yonchi send all messages, Yeeeeee!\n")
             self.text.see('end')

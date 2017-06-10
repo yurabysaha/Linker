@@ -10,9 +10,10 @@ from base import BaseMethod
 
 
 class Forward(BaseMethod):
-    def __init__(self, text):
+    def __init__(self, text, view):
         BaseMethod.__init__(self)
         self.text = text
+        self.view = view
 
         self.login()
         self.resend_message()
@@ -67,6 +68,9 @@ class Forward(BaseMethod):
                 count_messages = self.chrome.find_elements_by_xpath(".//div[contains(@class, 'message-bubble')]")
                 if len(count_messages) > 1:
                     User().finish(name[0])
+                    self.text.insert('end', "%s - already answer you\n" % name[0].decode('utf8'))
+                    self.text.see('end')
+                    self.view.update_count()
                 else:
                     # Send forward message
                     text_field = self.chrome.find_element_by_xpath(".//textarea")
@@ -86,6 +90,7 @@ class Forward(BaseMethod):
                     self.text.insert('end', "Final message was sent to: %s\n" % name[0])
                     self.text.see('end')
                     User().send_second_message(name[0])
+                    self.view.update_count()
                     time.sleep(random.randrange(20, 40))
         self.text.insert('end', "Yonchi send all final messages, Yeeeeee!\n")
         self.text.see('end')

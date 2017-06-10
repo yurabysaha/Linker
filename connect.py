@@ -7,9 +7,10 @@ from base import BaseMethod
 
 class Connect(BaseMethod):
 
-    def __init__(self, text):
+    def __init__(self, text, view):
         BaseMethod.__init__(self)
         self.text = text
+        self.view = view
 
         self.login()
         self.send_request()
@@ -53,6 +54,7 @@ class Connect(BaseMethod):
                             self.text.see('end')
                             User().create(full_name[-1], link)
                             counter += 1
+                            self.view.counts_update()
                             if counter != 0 and counter % 10 == 0 and counter < 1000000:
                                 self.text.insert('end', "Current added -> {}\n".format(counter))
                                 self.text.see('end')
@@ -67,6 +69,8 @@ class Connect(BaseMethod):
                             counter += 1000000
                             break
                 page_number += 1
+                self.text.insert('end', "Yonchi still search candidates!\n")
+                self.text.see('end')
             else:
                 self.text.insert('end', "Yonchi finished work !\n")
                 self.text.see('end')
@@ -74,4 +78,3 @@ class Connect(BaseMethod):
         self.text.insert('end', "Yonchi used all limit !\n")
         self.text.see('end')
         self.chrome.close()
-

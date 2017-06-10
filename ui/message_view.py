@@ -44,7 +44,9 @@ class MessageView:
         self.mess_entry.insert(1.0, config.get('main', 'message_text'))
 
         data = User().candidate_for_message()
-        tk.Label(self.body, bg='#e6e6e6', text='Candidate for message: %s' % len(data)).place(x=330, y=70)
+        self.count_message = len(data)
+        self.count_label = tk.Label(self.body, bg='#e6e6e6', text='Candidate for message: %s' % self.count_message)
+        self.count_label.place(x=330, y=70)
 
     def update_message_text(self, event):
         config = RawConfigParser()
@@ -59,6 +61,10 @@ class MessageView:
     def send_message(self, event):
         self.send_mess_btn.unbind("<Button 1>")
         self.send_mess_btn.config(state='disabled')
-        t = threading.Thread(target=Message, args=(self.text,))
+        t = threading.Thread(target=Message, args=(self.text, self))
         t.start()
         self.text.insert('end', "Start send messages\n")
+
+    def update_count(self):
+        self.count_message -= 1
+        self.count_label.config(text='Candidate for message: %s' % self.count_message)
