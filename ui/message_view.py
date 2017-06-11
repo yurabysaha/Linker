@@ -68,3 +68,8 @@ class MessageView:
     def update_count(self):
         self.count_message -= 1
         self.count_label.config(text='Candidate for message: %s' % self.count_message)
+
+    def update_count_from_db(self):
+        data = User().candidate_for_message()
+        self.count_message = len(data)
+        self.count_label.config(text='Candidate for message: %s' % self.count_message)

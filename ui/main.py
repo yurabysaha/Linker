@@ -37,6 +37,8 @@ textfield = tk.Text(body, width=74, height=18, bg='#e6e6e6')
 textfield.place(x=0, y=4)
 menu_btns = []
 
+view_obj = {}
+
 
 def start_feed(event):
     t = threading.Thread(target=Feed)
@@ -76,9 +78,12 @@ def open_message(event):
     for i in frames:
             frames[i].place_forget()
     if 'message' not in frames:
-        MessageView(root, frames, textfield)
+        message_view = MessageView(root, frames, textfield)
+        view_obj['message_view'] = message_view
     else:
         frames['message'].place(x=0, y=340, width=700, height=260)
+        t = threading.Thread(target=view_obj['message_view'].update_count_from_db)
+        t.start()
 
 
 def open_forward_message(event):
