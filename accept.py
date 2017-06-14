@@ -41,7 +41,7 @@ class Accept(BaseMethod):
                 self.chrome.execute_script("window.scrollTo(0, document.body.scrollHeight);")
                 time.sleep(5)
             else:
-                self.text.insert('end', "Yonchi think that nobody accepted you more")
+                self.text.insert('end', "Yonchi think that nobody accepted you more\n")
                 self.text.see('end')
                 self.chrome.close()
 

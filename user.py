@@ -64,8 +64,8 @@ today = date(2013, 11, 1)
 # 1q2w!@QW
 # alexandervojak@gmail.com
 # https://www.linkedin.com/search/results/people/?facetGeoRegion=%5B%22gb%3A0%22%5D&facetIndustry=%5B%2296%22%5D&facetNetwork=%5B%22S%22%5D&origin=FACETED_SEARCH&title=CEO
-DB_TABLE = 'tb_eq_users'
-# DB_TABLE = 'users'
+# DB_TABLE = 'tb_eq_users'
+DB_TABLE = 'users'
 class User:
     def __init__(self):
         config = RawConfigParser()
@@ -78,10 +78,19 @@ class User:
 
    # @db_decorator
     def create(self, name, link):
+        # return 0 - if user already in database (added)
+        # return 1 - if we add new user success
         # self.cur.execute("insert into users (bot_name, name, link) values (?, ?, ?);", (self.bot_name, name, link,))
-        self.cur.execute("insert into "+DB_TABLE+" (bot_name, name, link) values (%s, %s, %s);", (self.bot_name, name, link,))
-        self.con.commit()
+        self.cur.execute("SELECT * FROM "+DB_TABLE+" WHERE bot_name=%s AND name=%s AND link=%s;", (self.bot_name, name, link,))
+        data = self.cur.fetchall()
+        if data:
+            resp = 0
+        else:
+            self.cur.execute("insert into "+DB_TABLE+" (bot_name, name, link) values (%s, %s, %s);", (self.bot_name, name, link,))
+            self.con.commit()
+            resp = 1
         self.con.close()
+        return resp
 
    # @db_decorator
     def accept(self, name):

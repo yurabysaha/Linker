@@ -59,12 +59,15 @@ class ForwardView:
         tkMessageBox.showinfo("Updated", "Message text update successful")
 
     def send_message(self, event):
-        self.send_mess_btn.unbind("<Button 1>")
-        self.send_mess_btn.config(state='disabled')
         t = threading.Thread(target=Forward, args=(self.text, self))
         t.start()
         self.text.insert('end', "Start send messages\n")
 
     def update_count(self):
         self.count_message -= 1
+        self.count_label.config(text='Candidate for second message: %s' % self.count_message)
+
+    def update_count_from_db(self):
+        data = User().candidate_for_forward()
+        self.count_message = len(data)
         self.count_label.config(text='Candidate for second message: %s' % self.count_message)

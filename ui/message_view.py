@@ -59,8 +59,6 @@ class MessageView:
         tkMessageBox.showinfo("Updated", "Message text update successful")
 
     def send_message(self, event):
-        self.send_mess_btn.unbind("<Button 1>")
-        self.send_mess_btn.config(state='disabled')
         t = threading.Thread(target=Message, args=(self.text, self))
         t.start()
         self.text.insert('end', "Start send messages\n")

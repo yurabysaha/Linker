@@ -19,11 +19,11 @@ from ui.settings_view import SettingsView
 MAIN_BG = '#303030'
 
 # Потрібно щоб не вискакувало вікно на віндовсі при закритті програми
-# sys.stderr = open('error.log', 'w')
-# sys.stdout = open('output.log', 'w')
+sys.stderr = open('error.log', 'w')
+sys.stdout = open('output.log', 'w')
 
 root = tk.Tk()
-root.title('Yonchi v 2.0')
+root.title('Yonchi v 2.0.1')
 root.iconbitmap(default='logo.ico')
 root.configure(background=MAIN_BG)
 root.resizable(width=False, height=False)
@@ -51,6 +51,8 @@ def open_connect(event):
     for i in frames:
         frames[i].place_forget()
     frames['connect'].place(x=0, y=340, width=700, height=260)
+    t = threading.Thread(target=view_obj['connect_view'].counts_update_from_db)
+    t.start()
 
 
 def open_accept(event):
@@ -58,9 +60,12 @@ def open_accept(event):
     for i in frames:
             frames[i].place_forget()
     if 'accept' not in frames:
-        AcceptView(root, frames, textfield)
+        accept_view = AcceptView(root, frames, textfield)
+        view_obj['accept_view'] = accept_view
     else:
         frames['accept'].place(x=0, y=340, width=700, height=260)
+        t = threading.Thread(target=view_obj['accept_view'].counts_update_from_db)
+        t.start()
 
 
 def open_results(event):
@@ -91,10 +96,12 @@ def open_forward_message(event):
     for i in frames:
             frames[i].place_forget()
     if 'forward' not in frames:
-        ForwardView(root, frames, textfield)
+        forward_view = ForwardView(root, frames, textfield)
+        view_obj['forward_view'] = forward_view
     else:
         frames['forward'].place(x=0, y=340, width=700, height=260)
-
+        t = threading.Thread(target=view_obj['forward_view'].update_count_from_db)
+        t.start()
 
 def open_settings(event):
     active_menu_btn(event)
@@ -197,6 +204,8 @@ if __name__ == "__main__":
     menu.place(x=0, y=300, width=700, height=300)
     menu = Menu()
     menu.process_btn.config(bg='#616161', fg='#ffffff')
-    ConnectView(root, frames, textfield)
+    connect_view = ConnectView(root, frames, textfield)
+    view_obj['connect_view'] = connect_view
+
     # Backup().send_backup_to_email()
     root.mainloop()

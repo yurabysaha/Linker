@@ -30,13 +30,12 @@ class AcceptView:
         self.accept_btn.place(x=250, y=200)
 
     def start_review(self, event):
-        self.accept_btn.unbind("<Button 1>")
-        self.accept_btn.config(state='disabled')
         t = threading.Thread(target=Accept, args=(self.text, self))
         t.start()
         self.text.insert('end', "Start review connection people\n")
 
-    def counts_update(self):
-        self.count_today += 1
-        self.count_all += 1
+    def counts_update_from_db(self):
+        data = User().count_accepted()
+        self.count_today = data[0][0]
+        self.count_all = data[1][0]
         self.counts.config(text='%s     |     %s' % (self.count_today, self.count_all))

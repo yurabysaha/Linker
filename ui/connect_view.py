@@ -64,15 +64,11 @@ class ConnectView:
         self.sales_connect_btn.place(x=460, y=200)
 
     def start_connect(self, event):
-            self.connect_btn.unbind("<Button 1>")
-            self.connect_btn.config(state='disabled')
             t = threading.Thread(target=Connect, args=(self.text, self))
             t.start()
             self.text.insert('end', "Start Simple Connect people\n")
 
     def start_sales_connect(self, event):
-            self.connect_btn.unbind("<Button 1>")
-            self.connect_btn.config(state='disabled')
             t = threading.Thread(target=Sales, args=(self.text,))
             t.start()
             self.text.insert('end', "Start Sales Connect people\n")
@@ -90,4 +86,10 @@ class ConnectView:
     def counts_update(self):
         self.count_today += 1
         self.count_all += 1
+        self.counts.config(text=' %s     |     %s ' % (self.count_today, self.count_all))
+
+    def counts_update_from_db(self):
+        data = User().count_connections()
+        self.count_today = data[0][0]
+        self.count_all = data[1][0]
         self.counts.config(text=' %s     |     %s ' % (self.count_today, self.count_all))
