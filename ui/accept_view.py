@@ -34,6 +34,11 @@ class AcceptView:
         t.start()
         self.text.insert('end', "Start review connection people\n")
 
+    def counts_update(self):
+        self.count_today += 1
+        self.count_all += 1
+        self.counts.config(text='%s     |     %s' % (self.count_today, self.count_all))
+
     def counts_update_from_db(self):
         data = User().count_accepted()
         self.count_today = data[0][0]
