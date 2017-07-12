@@ -142,7 +142,7 @@ class User:
         return today_count, all_count
 
     def candidate_for_forward(self):
-        self.cur.execute("SELECT name FROM "+DB_TABLE+" WHERE send_message=1 AND second_message=0 AND finished=0 AND send_date < current_date - interval '5' day AND bot_name=?;", (self.bot_name,))
+        self.cur.execute("SELECT name FROM "+DB_TABLE+" WHERE send_message=1 AND second_message=0 AND finished=0 AND send_date < date('now', '-5 days') AND bot_name=?;", (self.bot_name,))
         cand = self.cur.fetchall()
         self.con.close()
         return cand
