@@ -64,8 +64,8 @@ today = date(2013, 11, 1)
 # 1q2w!@QW
 # alexandervojak@gmail.com
 # https://www.linkedin.com/search/results/people/?facetGeoRegion=%5B%22gb%3A0%22%5D&facetIndustry=%5B%2296%22%5D&facetNetwork=%5B%22S%22%5D&origin=FACETED_SEARCH&title=CEO
-# DB_TABLE = 'tb_eq_users'
-DB_TABLE = 'users'
+DB_TABLE = 'tb_eq_users'
+# DB_TABLE = 'users'
 class User:
     def __init__(self):
         config = RawConfigParser()
