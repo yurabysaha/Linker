@@ -53,22 +53,22 @@ class Forward(BaseMethod):
                     self.chrome.execute_script("arguments[0].scrollIntoView(false);", item)
                     if item.get_attribute("class") == "msg-premium-mailboxes__mailbox":
                         continue
-                    if item.find_element_by_xpath('.//h3').text == name[0].decode('utf8'):
+                    if item.find_element_by_xpath('.//h3').text == name[0]:
                         item.click()
                         break
             except NoSuchElementException:
-                self.text.insert('end', "Not found : %s\n" % name[0].decode('utf8'))
+                self.text.insert('end', "Not found : %s\n" % name[0])
                 self.text.see('end')
                 continue
             time.sleep(2)
             person_name = self.chrome.find_element_by_xpath(".//dt[@class='truncate']/h2").text
             time.sleep(1)
-            linkedin_name = name[0].decode('utf8')
+            linkedin_name = name[0]
             if person_name == linkedin_name:
                 count_messages = self.chrome.find_elements_by_xpath(".//div[contains(@class, 'message-bubble')]")
                 if len(count_messages) > 1:
                     User().finish(name[0])
-                    self.text.insert('end', "%s - already answer you\n" % name[0].decode('utf8'))
+                    self.text.insert('end', "%s - already answer you\n" % name[0])
                     self.text.see('end')
                     self.view.update_count()
                 else:

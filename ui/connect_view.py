@@ -2,9 +2,10 @@ import Tkinter as tk
 import threading
 import tkMessageBox
 from ConfigParser import RawConfigParser
+
+from connect_with_note import ConnectWithNote
 from user import User
 from connect import Connect
-from sales_tool import Sales
 
 
 class ConnectView:
@@ -22,7 +23,7 @@ class ConnectView:
         self.counts = tk.Label(self.body, bg='#e6e6e6', text=' %s     |     %s ' % (self.count_today, self.count_all))
         self.counts.place(x=422, y=120)
 
-        tk.Label(self.body, bg='#e6e6e6', text='Message Text For Sales Connect').place(x=1, y=1)
+        tk.Label(self.body, bg='#e6e6e6', text='Message Text For Add Note').place(x=1, y=1)
         self.sales_mess_entry = tk.Text(self.body, width=38, height=13)
         self.sales_mess_entry.place(x=10, y=24)
 
@@ -42,7 +43,7 @@ class ConnectView:
         self.update_mess_btn.place(x=330, y=24)
 
         self.connect_btn = tk.Button(self.body,
-                                     text='Start Simple Connect',
+                                     text='Simple Connect',
                                      fg='#ffffff',
                                      bg='#214312', activebackground='#e6e6e6',
                                      borderwidth=0,
@@ -53,7 +54,7 @@ class ConnectView:
         self.connect_btn.place(x=330, y=200)
 
         self.sales_connect_btn = tk.Button(self.body,
-                                     text='Start Sales Connect',
+                                     text='Connect with Note',
                                      fg='#ffffff',
                                      bg='#214312', activebackground='#e6e6e6',
                                      borderwidth=0,
@@ -64,14 +65,14 @@ class ConnectView:
         self.sales_connect_btn.place(x=460, y=200)
 
     def start_connect(self, event):
-            t = threading.Thread(target=Connect, args=(self.text, self))
+            t = threading.Thread(target=Connect, args=(self.text, self,))
             t.start()
             self.text.insert('end', "Start Simple Connect people\n")
 
     def start_sales_connect(self, event):
-            t = threading.Thread(target=Sales, args=(self.text,))
+            t = threading.Thread(target=ConnectWithNote, args=(self.text, self,))
             t.start()
-            self.text.insert('end', "Start Sales Connect people\n")
+            self.text.insert('end', "Start Connect people with add Note\n")
 
     def update_message_text(self, event):
         config = RawConfigParser()

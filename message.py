@@ -28,8 +28,8 @@ class Message(BaseMethod):
                 time.sleep(1)
                 search_field.send_keys(Keys.ENTER)
                 time.sleep(5)
-                linkedin_name = name[0].decode('utf8')
                 try:
+                    linkedin_name = name[0]
                     user_name = self.chrome.find_element_by_xpath(".//h3/span[1]/span").text
 
                     if user_name != linkedin_name:
