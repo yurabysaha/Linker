@@ -74,7 +74,7 @@ class ConnectWithNote(BaseMethod):
                             time.sleep(2)
                             # ------------
                             # self.chrome.find_element(By.XPATH, './/button[@class="dialog-close"]').click()
-                            self.chrome.find_element(By.XPATH, './/button[text()="Send Invitation"]').click()
+                            self.chrome.find_element(By.XPATH, './/button[text()="Send invitation"]').click()
 
                             added = User().create(full_name, link)
                             if added == 1:

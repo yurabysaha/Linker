@@ -23,7 +23,7 @@ MAIN_BG = '#303030'
 # sys.stdout = open('output.log', 'w')
 
 root = tk.Tk()
-root.title('Yonchi v 2.0.5L')
+root.title('Yonchi v 2.0.6L')
 root.iconbitmap(default='logo.ico')
 root.configure(background=MAIN_BG)
 root.resizable(width=False, height=False)
