@@ -23,7 +23,7 @@ MAIN_BG = '#303030'
 # sys.stdout = open('output.log', 'w')
 
 root = tk.Tk()
-root.title('Yonchi v 2.0.6L')
+root.title('Yonchi v 2.0.7L')
 root.iconbitmap(default='logo.ico')
 root.configure(background=MAIN_BG)
 root.resizable(width=False, height=False)
@@ -102,6 +102,7 @@ def open_forward_message(event):
         frames['forward'].place(x=0, y=340, width=700, height=260)
         t = threading.Thread(target=view_obj['forward_view'].update_count_from_db)
         t.start()
+
 
 def open_settings(event):
     active_menu_btn(event)

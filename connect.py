@@ -19,6 +19,7 @@ class Connect(BaseMethod):
         counter = User().get_day_counter()
         page_number = 1
         while counter < self.limit:
+            self.text.insert('end', "Search candidate on page %s ...\n" % page_number)
             self.chrome.get('{}&page={}'.format(self.search_link, page_number))
             time.sleep(5)
             # Scroll page down for loading all list
@@ -52,20 +53,21 @@ class Connect(BaseMethod):
                             full_name = item.get_attribute('aria-label').split('with ')
 
                             added = User().create(full_name[-1], link)
+                            wait_sec = random.randrange(20, 40)
                             if added == 1:
-                                self.text.insert('end', "%s was invited.\n" % full_name[-1])
+                                self.text.insert('end', "%s was invited. Yonchi resting for %s sec..\n" % (full_name[-1], wait_sec))
                                 self.text.see('end')
                                 counter += 1
                                 self.view.counts_update()
                             else:
-                                self.text.insert('end', "%s was invited early!\n" % full_name[-1])
+                                self.text.insert('end', "%s was invited early! Yonchi resting for %s sec..\n" % (full_name[-1], wait_sec))
                                 self.text.see('end')
 
                             if counter != 0 and counter % 10 == 0 and counter < 1000000:
-                                self.text.insert('end', "Current added -> {}\n".format(counter))
+                                self.text.insert('end', "Total added today -> {}\n".format(counter))
                                 self.text.see('end')
 
-                            time.sleep(random.randrange(20, 40))
+                            time.sleep(wait_sec)
                         except Exception as e:
                             self.text.insert('end', "Yonchi joked: {}\n".format(e))
                             self.text.see('end')
