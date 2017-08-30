@@ -23,7 +23,7 @@ class Message(BaseMethod):
             for name in people:
                 self.chrome.get(url='https://www.linkedin.com/search/results/people/?facetNetwork=%5B%22F%22%5D&keywords=&origin=GLOBAL_SEARCH_HEADER')
                 time.sleep(5)
-                search_field = self.chrome.find_element_by_xpath(".//input[@placeholder='Search']")
+                search_field = self.chrome.find_element_by_xpath(".//input[@placeholder='Search' and @aria-autocomplete='list']")
                 search_field.send_keys(name)
                 time.sleep(1)
                 search_field.send_keys(Keys.ENTER)
